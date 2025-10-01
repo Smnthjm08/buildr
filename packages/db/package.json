@@ -1,0 +1,19 @@
+{
+  "name": "@repo/db",
+  "module": "src/index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.16.3",
+    "dotenv": "^17.2.3",
+    "prisma": "^6.16.3"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}
