@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import * as motion from "motion/react-client";
 import { useEffect } from "react";
 import { getUsers } from "../actions/users";
+import Link from "next/link";
 
 export default function Home() {
 
@@ -32,7 +33,9 @@ export default function Home() {
       >
         <div>
           <h1>hello this is the bun next.js app</h1>
-          <Button>Click me</Button>
+          <Link href="/connect-wallet">
+          <Button>Connect Wallet</Button>
+          </Link>
         </div>
       </motion.div>
     </div>

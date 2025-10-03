@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
+import AppProvider from "@/components/app-provider";
+import "@solana/wallet-adapter-react-ui/styles.css";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
 });
 
 export const metadata: Metadata = {
@@ -24,17 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressContentEditableWarning suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} dark:bg-zinc-950`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+      <body className={`${geistSans.variable}  dark:bg-zinc-950`}>
+        <AppProvider>
           <div className="isolate min-h-screen">{children}</div>
-        </ThemeProvider>
+        </AppProvider>
       </body>
     </html>
   );
