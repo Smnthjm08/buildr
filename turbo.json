@@ -3,10 +3,10 @@
   "ui": "tui",
   "globalEnv": [
     "NODE_ENV",
-    "NEXT_PUBLIC_BASE_URL",
-    "NEXTAUTH_URL",
-    "NEXTAUTH_SECRET"
-
+    "BETTER_AUTH_SECRET",
+    "BETTER_AUTH_URL",
+    "NEXTAUTH_SECRET",
+    "DATABASE_URL"
   ],
   "tasks": {
     "build": {

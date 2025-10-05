@@ -48,7 +48,7 @@ export default function Hero() {
               <Image
                 width={192}
                 height={192}
-                src="/pink-donut-with-sprinkles-on-cream-background.jpg"
+                src="/hero.jpg"
                 alt="A pink frosted donut with sprinkles"
                 className="h-48 w-48 object-contain"
               />

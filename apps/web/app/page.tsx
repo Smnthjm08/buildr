@@ -5,6 +5,7 @@ import { Appbar } from "@/components/appbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function LandingPage() {
+  console.log("RENDERING LANDING PAGE", process.env.NODE_ENV);
 
   return (
     <main>
