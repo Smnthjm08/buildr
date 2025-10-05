@@ -17,7 +17,7 @@ datasource db {
 model User {
   id        String  @id @default(cuid())
   name      String?
-  publicKey String  @unique
+  walletAddress String  @unique
 
   // @@map("user")
 }
