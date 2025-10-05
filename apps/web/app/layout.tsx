@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import AppProvider from "@/components/app-provider";
+import AppProvider from "@/components/providers/app-provider";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import { Nunito } from "next/font/google";
 import { GeistMono } from "geist/font/mono";

@@ -9,7 +9,7 @@ import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
 import { clusterApiUrl } from "@solana/web3.js";
 import { useMemo } from "react";
-import { ThemeProvider } from "./theme-provider";
+import { ThemeProvider } from "../providers/theme-provider";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
 

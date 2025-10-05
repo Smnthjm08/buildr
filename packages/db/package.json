@@ -2,6 +2,10 @@
   "name": "@repo/db",
   "module": "src/index.ts",
   "type": "module",
+  "scripts": {
+    "db:migrate": "npx prisma migrate dev",
+    "db:generate": "npx prisma generate"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
