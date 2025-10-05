@@ -1,13 +1,13 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import * as motion from "motion/react-client";
 import { useEffect } from "react";
 import { getUsers } from "../actions/users";
-import Link from "next/link";
+import Hero from "@/components/hero";
+import { Appbar } from "@/components/appbar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function Home() {
-
+export default function LandingPage() {
+  
   useEffect(() => {
     async function fetchUsers() {
       try {
@@ -22,22 +22,37 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex items-center min-h-screen justify-center">
-      <motion.div
-        className="z-20 bg-orange-300 rounded justify-center p-2 items-center flex"
-        animate={{
-          opacity: 1,
-          scale: 1.4,
-          transition: { duration: 0.8 },
-        }}
-      >
-        <div>
-          <h1>hello this is the bun next.js app</h1>
-          <Link href="/connect-wallet">
-          <Button>Connect Wallet</Button>
-          </Link>
+    <main>
+      <Appbar />
+      <Hero />
+      <section className="mx-auto max-w-6xl px-4 pb-20">
+        <div className="grid gap-6 md:grid-cols-3">
+          <Card className="rounded-2xl">
+            <CardHeader>
+              <CardTitle>Fast onboarding</CardTitle>
+            </CardHeader>
+            <CardContent className="text-muted-foreground">
+              Create your page in minutes and share a sweet link with your fans.
+            </CardContent>
+          </Card>
+          <Card className="rounded-2xl">
+            <CardHeader>
+              <CardTitle>Sweet experiences</CardTitle>
+            </CardHeader>
+            <CardContent className="text-muted-foreground">
+              A playful tipping flow with celebratory confetti and friendly UI.
+            </CardContent>
+          </Card>
+          <Card className="rounded-2xl">
+            <CardHeader>
+              <CardTitle>Creator-first</CardTitle>
+            </CardHeader>
+            <CardContent className="text-muted-foreground">
+              Clear stats and donor messages that brighten your day.
+            </CardContent>
+          </Card>
         </div>
-      </motion.div>
-    </div>
+      </section>
+    </main>
   );
 }

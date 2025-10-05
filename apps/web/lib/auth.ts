@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { getCsrfToken } from "next-auth/react";
 import { SigninMessage } from "@/utils/SignInMessage";
 import type { NextAuthOptions } from "next-auth";
+import prisma from "@repo/db";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -15,7 +16,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         try {
           const signinMessage = new SigninMessage(
-            JSON.parse(credentials?.message || "{}")
+            JSON.parse(credentials?.message || "{}"),
           );
           const nextAuthUrl = new URL(process.env.NEXTAUTH_URL!);
           if (signinMessage.domain !== nextAuthUrl.host) return null;
@@ -24,12 +25,24 @@ export const authOptions: NextAuthOptions = {
           if (signinMessage.nonce !== csrfToken) return null;
 
           const validationResult = await signinMessage.validate(
-            credentials?.signature || ""
+            credentials?.signature || "",
           );
           if (!validationResult)
             throw new Error("Could not validate the signed message");
 
-          return { id: signinMessage.publicKey };
+          const data = await prisma.user.upsert({
+            where: {
+              publicKey: signinMessage.publicKey,
+            },
+            create: {
+              publicKey: signinMessage.publicKey,
+            },
+            update: {},
+          });
+          return {
+            id: data.id,
+            publicKey: data.publicKey,
+          };
         } catch {
           return null;
         }
@@ -40,9 +53,9 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET!,
+  // adapter: PrismaAdapter(prisma),
   callbacks: {
     async session({ session, token }) {
-      // @ts-ignore
       session.publicKey = token.sub;
       if (session.user) {
         session.user.name = token.sub;
