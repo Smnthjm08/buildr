@@ -29,8 +29,8 @@ app.get("/api/me", async (req, res) => {
     });
     res.json(session);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to get session" });
+    console.error("Error in /api/me:", err);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -41,8 +41,8 @@ app.get("/users", async (req, res) => {
       .status(200)
       .json({ message: "Fetched users successfully!", data: users });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Database error" });
+    console.error("Error in /users:", err);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
