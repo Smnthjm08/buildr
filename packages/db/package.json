@@ -5,7 +5,7 @@
   "scripts": {
     "db:migrate": "bunx prisma migrate dev",
     "db:generate": "bunx prisma generate",
-    "build": "tsc"
+    "build": "bun run db:generate && tsc"
   },
   "devDependencies": {
     "@types/bun": "latest"
