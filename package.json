@@ -2,13 +2,20 @@
   "name": "sol-donut",
   "private": true,
   "scripts": {
+    "prebuild": "bunx prisma generate --schema=packages/db/prisma/schema.prisma",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
+    "check-types": "turbo run check-types",
+    "db:migrate": "turbo run db:migrate",
+    "db:generate": "turbo run db:generate",
+    "server:start": "turbo run server:start",
+    "web:build": "turbo run web:build",
+    "web:start": "turbo run web:start"
   },
   "devDependencies": {
+    "dotenv-cli": "^10.0.0",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "turbo": "^2.5.8",
@@ -21,5 +28,8 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "better-auth": "^1.3.26"
+  }
 }

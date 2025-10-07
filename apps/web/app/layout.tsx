@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
-
+import AppProvider from "@/components/providers/app-provider";
 import "@solana/wallet-adapter-react-ui/styles.css";
-import Provider from "@/components/providers/provider";
+import { Nunito } from "next/font/google";
+import { GeistMono } from "geist/font/mono";
+import { Toaster } from "@/components/ui/sonner";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
+const nunito = Nunito({
+  subsets: ["latin"],
+  variable: "--font-nunito",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -22,10 +24,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressContentEditableWarning suppressHydrationWarning>
-      <body className={`${geistSans.variable} dark:bg-zinc-950`}>
-        <Provider>
+      <body className={`font-sans ${nunito.variable} ${GeistMono.variable}`}>
+        <AppProvider>
           <div className="isolate min-h-screen">{children}</div>
-        </Provider>
+          <Toaster />
+        </AppProvider>
       </body>
     </html>
   );

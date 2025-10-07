@@ -2,6 +2,11 @@
   "name": "@repo/db",
   "module": "src/index.ts",
   "type": "module",
+  "scripts": {
+    "db:migrate": "bunx prisma migrate dev",
+    "db:generate": "bunx prisma generate",
+    "server:build": "bunx prisma generate && bun build src/index.ts --outdir ./dist --target bun"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
