@@ -9,33 +9,34 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useState } from "react";
-import { Github, Loader2 } from "lucide-react";
+// import { Input } from "@/components/ui/input";
+// import { Label } from "@/components/ui/label";
+// import { useRouter } from "next/navigation";
+import { Github } from "lucide-react";
+// import { toast } from "sonner";
 import { authClient } from "@repo/shared/client";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function SignUp() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const router = useRouter();
+  // const [firstName, setFirstName] = useState("");
+  // const [lastName, setLastName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   return (
     <Card className="w-full min-w-md mx-auto shadow-lg rounded-2xl border">
-      <CardHeader>
+      <CardHeader className="space-y-1 text-center">
         <CardTitle className="text-lg md:text-xl">Sign Up</CardTitle>
         <CardDescription className="text-xs md:text-sm">
-          Enter your information to create an account
+          {/* Enter your information to create an account */}
+          Currently only social login is supported.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid gap-4">
-          <div className="grid grid-cols-2 gap-4">
+          {/* <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
               <Label htmlFor="first-name">First name</Label>
               <Input
@@ -61,6 +62,7 @@ export default function SignUp() {
               />
             </div>
           </div>
+
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -74,6 +76,7 @@ export default function SignUp() {
               value={email}
             />
           </div>
+
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
             <Input
@@ -118,10 +121,11 @@ export default function SignUp() {
             ) : (
               "Create an account"
             )}
-          </Button>
+          </Button> */}
 
-          <div className="mt-4">
-            <div className="relative">
+          <div className="">
+            {/* <div className="mt-4"> */}
+            {/* <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t" />
               </div>
@@ -130,7 +134,7 @@ export default function SignUp() {
                   Or continue with
                 </span>
               </div>
-            </div>
+            </div> */}
 
             <div className="grid gap-2 mt-4">
               <Button
@@ -145,9 +149,11 @@ export default function SignUp() {
                     },
                     {
                       onRequest: (ctx) => {
+                        console.log(ctx);
                         setLoading(true);
                       },
                       onResponse: (ctx) => {
+                        console.log(ctx);
                         setLoading(false);
                       },
                     },
@@ -191,9 +197,11 @@ export default function SignUp() {
                     },
                     {
                       onRequest: (ctx) => {
+                        console.log(ctx);
                         setLoading(true);
                       },
                       onResponse: (ctx) => {
+                        console.log(ctx);
                         setLoading(false);
                       },
                     },

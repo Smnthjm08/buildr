@@ -9,9 +9,10 @@ import {
   Gift,
   LayoutDashboard,
   Code,
+  LogOutIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -25,6 +26,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
+import { authClient } from "@repo/shared/client";
 
 const menuSections = [
   {
@@ -57,6 +59,7 @@ const menuSections = [
 
 export default function AppSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <Sidebar>
@@ -101,6 +104,28 @@ export default function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="text-xs text-muted-foreground">
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  onClick={async () =>
+                    await authClient.signOut({
+                      fetchOptions: {
+                        onSuccess: () => {
+                          router.push("/signin");
+                        },
+                      },
+                    })
+                  }
+                >
+                  <LogOutIcon className="h-4 w-4 gap-2" />
+                  Logout
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
         © 2025 SolDonut
       </SidebarFooter>
     </Sidebar>

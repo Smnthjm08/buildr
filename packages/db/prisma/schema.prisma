@@ -9,29 +9,29 @@ datasource db {
 }
 
 model User {
-  id            String   @id
+  id            String   @id @default(cuid())
   name          String
   email         String
   emailVerified Boolean
   image         String?
-  createdAt     DateTime
-  updatedAt     DateTime
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   sessions    Session[]
   accounts    Account[]
-  userDetials UserDetials?
+  userDetails UserDetails?
 
   @@unique([email])
   @@map("user")
 }
 
-model UserDetials {
-  id                  String   @id
-  username            String   @unique
+model UserDetails {
+  id                  String   @id @default(cuid())
+  username            String   @unique // important: get with session
   isUsernameEdited    Boolean  @default(false)
-  onboardingCompleted Boolean  @default(false)
-  walletAddress       String   @unique
-  bio                 String?
+  onboardingCompleted Boolean  @default(false) // important: get with session
+  walletAddress       String   @unique // important: get with session
+  bio                 String? // important: get with session
   location            String?
   website             String?
   twitter             String?
@@ -41,8 +41,8 @@ model UserDetials {
   // facebook      String?
   profileImage        String?
   coverImage          String?
-  createdAt           DateTime
-  updatedAt           DateTime
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -51,7 +51,7 @@ model UserDetials {
 }
 
 model Session {
-  id        String   @id
+  id        String   @id @default(cuid())
   expiresAt DateTime
   token     String
   createdAt DateTime
@@ -67,7 +67,7 @@ model Session {
 }
 
 model Account {
-  id                    String    @id
+  id                    String    @id @default(cuid())
   accountId             String
   providerId            String
   accessToken           String?
@@ -87,7 +87,7 @@ model Account {
 }
 
 model Verification {
-  id         String    @id
+  id         String    @id @default(cuid())
   identifier String
   value      String
   expiresAt  DateTime

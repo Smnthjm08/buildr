@@ -4,6 +4,7 @@ import AppProvider from "@/components/providers/app-provider";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import { Nunito } from "next/font/google";
 import { GeistMono } from "geist/font/mono";
+import { Toaster } from "@/components/ui/sonner";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body className={`font-sans ${nunito.variable} ${GeistMono.variable}`}>
         <AppProvider>
           <div className="isolate min-h-screen">{children}</div>
+          <Toaster />
         </AppProvider>
       </body>
     </html>

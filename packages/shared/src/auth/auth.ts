@@ -1,16 +1,33 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "@repo/db";
-// import { jwt } from "better-auth/plugins";
-
-console.log("DATABASE_URL", process.env.DATABASE_URL);
+import { customSession } from "better-auth/plugins";
 
 export const auth: any = betterAuth({
-  // plugins: [jwt()],
+  plugins: [
+    customSession(async ({ user, session }) => {
+      const userDetail = await prisma.userDetails.findUnique({
+        where: {
+          userId: user?.id,
+        },
+      });
+
+      return {
+        session,
+        user: {
+          ...user,
+          walletAddress: userDetail?.walletAddress ?? null,
+          username: userDetail?.username ?? null,
+          bio: userDetail?.bio ?? null,
+          onboardingCompleted: userDetail?.onboardingCompleted ?? false,
+        },
+      };
+    }),
+  ],
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
-  secret: (process.env.BETTER_AUTH_SECRET as string) ?? "secret",
+  secret: process.env.BETTER_AUTH_SECRET ?? "secret",
   emailAndPassword: {
     enabled: true,
   },
@@ -18,28 +35,22 @@ export const auth: any = betterAuth({
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      mapProfileToUser: (profile) => {
-        console.log("GITHUB PROFILE", profile);
-        return {
-          name: profile.name ?? "null",
-          email: profile.email,
-          image: profile.avatar_url ?? "null",
-          emailVerified: true,
-        };
-      },
+      mapProfileToUser: (profile) => ({
+        name: profile.name ?? "null",
+        email: profile.email,
+        image: profile.avatar_url ?? "null",
+        emailVerified: true,
+      }),
     },
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      mapProfileToUser: (profile) => {
-        console.log("GOOGLE PROFILE", profile);
-        return {
-          name: profile.name ?? "Not avilable",
-          email: profile.email ?? "Not avilable",
-          image: profile.picture ?? "Not avilable",
-          emailVerified: true,
-        };
-      },
+      mapProfileToUser: (profile) => ({
+        name: profile.name ?? "Not available",
+        email: profile.email ?? "Not available",
+        image: profile.picture ?? "Not available",
+        emailVerified: true,
+      }),
     },
   },
 });
