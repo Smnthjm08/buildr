@@ -21,7 +21,7 @@ export default function Hero() {
           </p>
           <div className="flex flex-wrap gap-3">
             <Button asChild size="lg" className="rounded-full">
-              <Link href="/connect-wallet">Create my page</Link>
+              <Link href="/signup">Create my page</Link>
             </Button>
             <Button
               asChild

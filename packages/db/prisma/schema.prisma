@@ -17,11 +17,37 @@ model User {
   createdAt     DateTime
   updatedAt     DateTime
 
-  sessions Session[]
-  accounts Account[]
+  sessions    Session[]
+  accounts    Account[]
+  userDetials UserDetials?
 
   @@unique([email])
   @@map("user")
+}
+
+model UserDetials {
+  id                  String   @id
+  username            String   @unique
+  isUsernameEdited    Boolean  @default(false)
+  onboardingCompleted Boolean  @default(false)
+  walletAddress       String   @unique
+  bio                 String?
+  location            String?
+  website             String?
+  twitter             String?
+  github              String?
+  linkedin            String?
+  instagram           String?
+  // facebook      String?
+  profileImage        String?
+  coverImage          String?
+  createdAt           DateTime
+  updatedAt           DateTime
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_details")
 }
 
 model Session {
@@ -32,9 +58,9 @@ model Session {
   updatedAt DateTime
   ipAddress String?
   userAgent String?
-  
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
   @@map("session")
@@ -54,8 +80,8 @@ model Account {
   createdAt             DateTime
   updatedAt             DateTime
 
-  userId                String
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("account")
 }

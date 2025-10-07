@@ -44,7 +44,7 @@ export function Appbar({ className }: { className?: string }) {
 
         <div className="flex items-center gap-2">
           <Button asChild variant="secondary" className="rounded-full">
-            <Link href="/connect-wallet">Start Creating</Link>
+            <Link href="/signup">Start Creating</Link>
           </Button>
         </div>
       </div>

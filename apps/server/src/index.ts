@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import prisma from "@repo/db";
+// import prisma from "@repo/db";
 import { auth } from "@repo/shared/server";
 import { fromNodeHeaders, toNodeHandler } from "better-auth/node";
 import cors from "cors";
@@ -15,7 +15,7 @@ app.use(
   }),
 );
 
-app.all("/api/auth/*", toNodeHandler(auth));
+app.all("/api/auth/{*any}", toNodeHandler(auth));
 
 app.get("/", (_req: Request, res: Response) => {
   res.json({ status: "OK!" });
@@ -28,10 +28,10 @@ app.get("/api/me", async (req, res) => {
   return res.json(session);
 });
 
-app.get("/users", async (req, res) => {
-  const users = await prisma.user.findMany();
-  res.status(200).json({ message: "fetched user successfully!", data: users });
-});
+// app.get("/users", async (req, res) => {
+//   const users = await prisma.user.findMany();
+//   res.status(200).json({ message: "fetched user successfully!", data: users });
+// });
 
 app.listen(5001, () => {
   console.log("app is listening on port 5001");
