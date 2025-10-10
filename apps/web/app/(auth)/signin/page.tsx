@@ -184,7 +184,7 @@ export default function SignIn() {
               }}
             >
               <Github />
-              Sign up with Github
+              Sign in with Github
             </Button>
           </div>
         </div>

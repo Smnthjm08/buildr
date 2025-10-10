@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import AppProvider from "@/components/providers/app-provider";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import { Nunito } from "next/font/google";
 import { GeistMono } from "geist/font/mono";
 import { Toaster } from "@/components/ui/sonner";
+import AppProvider from "@/components/providers/app-provider";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -22,6 +22,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en" suppressContentEditableWarning suppressHydrationWarning>
       <body className={`font-sans ${nunito.variable} ${GeistMono.variable}`}>

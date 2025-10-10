@@ -3,6 +3,8 @@
 import Hero from "@/components/hero";
 import { Appbar } from "@/components/appbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import FooterSection from "@/components/footer";
+import FAQSection from "@/components/faq-section";
 
 export default function LandingPage() {
   console.log("RENDERING LANDING PAGE", process.env.NEXT_PUBLIC_NODE_ENV);
@@ -40,6 +42,10 @@ export default function LandingPage() {
           </Card>
         </div>
       </section>
+
+      <FAQSection />
+
+      <FooterSection />
     </main>
   );
 }
