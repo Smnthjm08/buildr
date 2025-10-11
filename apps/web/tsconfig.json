@@ -2,8 +2,16 @@
   "extends": "@repo/typescript-config/nextjs.json",
   "compilerOptions": {
     "forceConsistentCasingInFileNames": true,
-        "paths": {
-      "@/*": ["./*"]
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+      "@repo/shared/*": [
+        "../../packages/shared/src/*"
+      ],
+      "@repo/db/*": [
+        "../../packages/db/src/*"
+      ]
     },
     "plugins": [
       {

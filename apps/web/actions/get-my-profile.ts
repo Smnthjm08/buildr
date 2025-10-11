@@ -13,10 +13,10 @@ export default async function getMyProfile() {
 
     const userProfile = await prisma.user.findUnique({
       where: { id: session?.user?.id },
-      include: { userDetails: true }
+      include: { userDetails: true },
     });
     console.log("userProfile", userProfile);
-    return {success: true, message: null, data: userProfile}
+    return { success: true, message: null, data: userProfile };
   } catch (error) {
     console.log("error getting the user profile", error);
     return { success: false, message: "Error fetching user profile!" };

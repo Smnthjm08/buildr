@@ -13,7 +13,7 @@ app.use(
     // origin: "http://localhost:3004",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
-  })
+  }),
 );
 
 app.all("/api/auth/{*any}", toNodeHandler(auth));

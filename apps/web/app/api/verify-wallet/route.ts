@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     const verified = nacl.sign.detached.verify(
       new TextEncoder().encode(message),
       bs58.decode(signature),
-      bs58.decode(publicKey)
+      bs58.decode(publicKey),
     );
 
     if (!verified) {

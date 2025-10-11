@@ -24,7 +24,7 @@ export interface User {
   id: string;
   name: string | null;
   email: string;
-  image: string | null;
+  image?: string | null;
   username: string | null;
   walletAddress: string | null;
   bio: string | null;
@@ -87,7 +87,7 @@ export default function OnboardingPage() {
       if (data.valid) {
         toast.success("✅ Wallet verified successfully!");
         setUser((prev) =>
-          prev ? { ...prev, walletAddress: publicKey.toBase58() } : prev
+          prev ? { ...prev, walletAddress: publicKey.toBase58() } : prev,
         );
       } else {
         toast.error("❌ Wallet verification failed.");

@@ -3,7 +3,8 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "@repo/db";
 import { customSession } from "better-auth/plugins";
 
-export const auth: any = betterAuth({
+// @ts-ignore
+export const auth = betterAuth({
   plugins: [
     customSession(async ({ user, session }) => {
       const userDetail = await prisma.userDetails.findUnique({
@@ -54,3 +55,6 @@ export const auth: any = betterAuth({
     },
   },
 });
+
+// Export the type for client-side inference
+export type Auth = typeof auth;

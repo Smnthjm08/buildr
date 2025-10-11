@@ -19,6 +19,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import Stats from "@/components/stats";
 
 const data = [
   { day: "Mon", sol: 0.2 },
@@ -40,29 +41,8 @@ export default function DashboardPage() {
   return (
     <main>
       <section className="mx-auto max-w-6xl px-4 py-10 grid gap-6">
-        <div className="grid md:grid-cols-3 gap-4">
-          <Card className="rounded-2xl">
-            <CardHeader>
-              <CardTitle>Donuts this week</CardTitle>
-            </CardHeader>
-            <CardContent className="text-3xl font-extrabold">
-              2.63 SOL
-            </CardContent>
-          </Card>
-          <Card className="rounded-2xl">
-            <CardHeader>
-              <CardTitle>Total supporters</CardTitle>
-            </CardHeader>
-            <CardContent className="text-3xl font-extrabold">1,248</CardContent>
-          </Card>
-          <Card className="rounded-2xl">
-            <CardHeader>
-              <CardTitle>Avg per tip</CardTitle>
-            </CardHeader>
-            <CardContent className="text-3xl font-extrabold">
-              0.19 SOL
-            </CardContent>
-          </Card>
+        <div className="grid md:grid-cols-1 gap-4">
+          <Stats />
         </div>
 
         <Card className="rounded-3xl">

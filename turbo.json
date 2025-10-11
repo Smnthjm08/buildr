@@ -14,50 +14,84 @@
   ],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**"
+      ]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": [
+        "^lint"
+      ]
     },
     "check-types": {
-      "dependsOn": ["^check-types"]
+      "dependsOn": [
+        "^check-types"
+      ]
     },
     "dev": {
       "cache": false,
       "persistent": true
     },
-
     "db:migrate": {
       "cache": false
     },
     "db:generate": {
       "cache": false,
-      "outputs": ["packages/db/generated/**", "packages/db/src/generated/**"]
+      "outputs": [
+        "packages/db/generated/**",
+        "packages/db/src/generated/**"
+      ]
     },
     "db:reset": {
       "cache": false
     },
-
     "server:build": {
-      "dependsOn": ["^build", "^db:generate"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**"]
+      "dependsOn": [
+        "^build",
+        "^db:generate"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
     },
     "server:start": {
       "cache": false,
-      "dependsOn": ["server:build"]
+      "dependsOn": [
+        "server:build"
+      ]
     },
-
     "web:build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+          "cache": false,
+      "dependsOn": [
+        "^build",
+        "^db:generate"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**"
+      ]
     },
     "web:start": {
       "cache": false,
-      "dependsOn": ["web:build"],
+      "dependsOn": [
+        "web:build"
+      ],
       "persistent": true
     }
   }

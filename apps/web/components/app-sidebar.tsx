@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   Donut,
   Home,
@@ -10,6 +11,7 @@ import {
   LayoutDashboard,
   Code,
   LogOutIcon,
+  Bell,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -28,38 +30,54 @@ import {
 import { cn } from "@/lib/utils";
 import { authClient } from "@repo/shared/client";
 
-const menuSections = [
-  {
-    label: "Overview",
-    items: [
-      { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-      { title: "My Page", url: "/u/me", icon: Home },
-      { title: "Supporters", url: "/supporters", icon: Gift },
-    ],
-  },
-  {
-    label: "Profile",
-    items: [
-      { title: "My Profile", url: "/my-profile", icon: User },
-      { title: "Embed Widget", url: "/widget", icon: Code },
-    ],
-  },
-  {
-    label: "Earnings",
-    items: [
-      { title: "Earnings", url: "/earnings", icon: Wallet },
-      { title: "Transactions", url: "/transactions", icon: Gift },
-    ],
-  },
-  {
-    label: "Settings",
-    items: [{ title: "Settings", url: "/settings", icon: Settings }],
-  },
-];
-
 export default function AppSidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const { isPending, data } = authClient.useSession();
+  const [username, setUsername] = useState<string | null>(null);
+
+  console.log("un", username);
+
+  // wait until data is ready before rendering sidebar links
+  useEffect(() => {
+    if (!isPending && data?.user?.username) {
+      setUsername(data.user.username);
+    }
+  }, [isPending, data]);
+
+  if (isPending || !username) return null; // wait until username is available
+
+  const menuSections = [
+    {
+      label: "Overview",
+      items: [
+        { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+        { title: "My Page", url: `/${username}`, icon: Home },
+        { title: "Supporters", url: "/supporters", icon: Gift },
+      ],
+    },
+    {
+      label: "Profile",
+      items: [
+        { title: "My Profile", url: "/my-profile", icon: User },
+        { title: "Embed Widget", url: "/widget", icon: Code },
+      ],
+    },
+    {
+      label: "Earnings",
+      items: [
+        { title: "Earnings", url: "/earnings", icon: Wallet },
+        { title: "Transactions", url: "/transactions", icon: Gift },
+      ],
+    },
+    {
+      label: "Settings",
+      items: [
+        { title: "Settings", url: "/settings", icon: Settings },
+        { title: "Notifications", url: "/notifications", icon: Bell },
+      ],
+    },
+  ];
 
   return (
     <Sidebar>

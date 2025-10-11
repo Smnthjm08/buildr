@@ -101,7 +101,6 @@ export default function FooterSection() {
           >
             <GithubIcon width={20} height={20} />
           </Link>
-
         </div>
 
         <span className="text-muted-foreground block text-center text-sm">
