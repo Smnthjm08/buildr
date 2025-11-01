@@ -1,5 +1,5 @@
 {
-  "name": "@sol-donut/server",
+  "name": "@buildr/server",
   "module": "src/index.ts",
   "type": "module",
   "scripts": {

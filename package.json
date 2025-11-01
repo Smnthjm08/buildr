@@ -1,5 +1,5 @@
 {
-  "name": "sol-donut",
+  "name": "buildr",
   "private": true,
   "scripts": {
     "prebuild": "bunx prisma generate --schema=packages/db/prisma/schema.prisma",

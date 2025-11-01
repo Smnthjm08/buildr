@@ -1,10 +1,10 @@
 {
-  "name": "@sol-donut/web",
+  "name": "@buildr/web",
   "version": "0.1.0",
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack --port 3004",
+    "dev": "next dev --turbopack --port 3000",
     "web:build": "next build",
     "web:start": "next start",
     "lint": "next lint --max-warnings 0",
@@ -22,16 +22,8 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-tooltip": "^1.2.8",
-    "@solana-mobile/wallet-adapter-mobile": "^2.2.3",
-    "@solana/wallet-adapter-backpack": "^0.1.14",
-    "@solana/wallet-adapter-base": "^0.9.27",
-    "@solana/wallet-adapter-react": "^0.15.39",
-    "@solana/wallet-adapter-react-ui": "^0.9.39",
-    "@solana/wallet-adapter-wallets": "^0.19.37",
-    "@solana/web3.js": "1",
     "@tailwindcss/postcss": "^4.1.13",
     "axios": "^1.12.2",
-    "bs58": "^6.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "geist": "^1.5.1",
@@ -45,8 +37,7 @@
     "recharts": "2.15.4",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",
-    "tailwindcss": "^4.1.13",
-    "tweetnacl": "^1.0.3"
+    "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
     "@repo/db": "workspace:*",

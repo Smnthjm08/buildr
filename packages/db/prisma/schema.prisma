@@ -19,35 +19,9 @@ model User {
 
   sessions    Session[]
   accounts    Account[]
-  userDetails UserDetails?
 
   @@unique([email])
   @@map("user")
-}
-
-model UserDetails {
-  id                  String   @id @default(cuid())
-  username            String   @unique // important: get with session
-  isUsernameEdited    Boolean  @default(false)
-  onboardingCompleted Boolean  @default(false) // important: get with session
-  walletAddress       String   @unique // important: get with session
-  bio                 String? // important: get with session
-  location            String?
-  website             String?
-  twitter             String?
-  github              String?
-  linkedin            String?
-  instagram           String?
-  // facebook      String?
-  profileImage        String?
-  coverImage          String?
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("user_details")
 }
 
 model Session {
