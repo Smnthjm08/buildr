@@ -1,0 +1,19 @@
+{
+  "name": "@workspace/db",
+  "module": "src/index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/shared": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "prisma": "^6.18.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.18.0",
+    "dotenv": "^17.2.3"
+  }
+}
