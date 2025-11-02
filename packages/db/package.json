@@ -2,12 +2,19 @@
   "name": "@workspace/db",
   "module": "src/index.ts",
   "type": "module",
+  "scripts": {
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev --skip-generate",
+    "db:deploy": "prisma migrate deploy"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "@workspace/eslint-config": "workspace:*",
-    "@workspace/shared": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
     "prisma": "^6.18.0"
+  },
+    "exports": {
+    ".": "./src/index.ts"
   },
   "peerDependencies": {
     "typescript": "^5"

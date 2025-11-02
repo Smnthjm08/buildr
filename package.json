@@ -6,12 +6,13 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
+    "db:generate": "turbo run db:generate",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
     "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
-        "dotenv-cli": "^11.0.0",
+    "dotenv-cli": "^11.0.0",
     "prettier": "^3.6.2",
     "turbo": "^2.5.5",
     "typescript": "5.7.3"
