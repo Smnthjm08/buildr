@@ -1,7 +1,7 @@
 // TODO toast needs to be fixed
 "use client";
 
-import { Button } from "@workspace/ui/components/button";
+import { Button } from "@workspace/ui/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,9 +9,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@workspace/ui/components/card";
-import { Input } from "@workspace/ui/components/input";
-import { Label } from "@workspace/ui/components/label";
+} from "@workspace/ui/components/ui/card";
+import { Input } from "@workspace/ui/components/ui/input";
+import { Label } from "@workspace/ui/components/ui/label";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { signIn, signUp } from "@workspace/shared/auth/client";
@@ -106,7 +106,7 @@ export default function SignUp() {
                     setLoading(true);
                   },
                   onError: (ctx) => {
-                    toast.error(ctx.error.message);
+                    toast.error(ctx.error.message || "Error signing up");
                   },
                   onSuccess: async () => {},
                 },
@@ -153,7 +153,7 @@ export default function SignUp() {
                         console.log("Signup res...", ctx);
                       },
                       onError(context) {
-                        toast.error(context.error.message);
+                        toast.error(context.error.message );
                         setLoading(false);
                         console.log("Signup error...", context);
                       },

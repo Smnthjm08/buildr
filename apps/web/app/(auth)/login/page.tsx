@@ -1,7 +1,7 @@
 // TODO toast needs to be fixed
 "use client";
 
-import { Button } from "@workspace/ui/components/button";
+import { Button } from "@workspace/ui/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,9 +9,9 @@ import {
   CardTitle,
   CardDescription,
   CardFooter,
-} from "@workspace/ui/components/card";
-import { Input } from "@workspace/ui/components/input";
-import { Label } from "@workspace/ui/components/label";
+} from "@workspace/ui/components/ui/card";
+import { Input } from "@workspace/ui/components/ui/input";
+import { Label } from "@workspace/ui/components/ui/label";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { signIn } from "@workspace/shared/auth/client";
@@ -92,7 +92,7 @@ export default function SignIn() {
                     console.log("Sign in response...", ctx.response);
                   },
                   onError: (ctx) => {
-                    toast.error(ctx.error.message);
+                    toast.error(ctx.error.message || "Error logging in");
                     setLoading(false);
                     console.log("Sign in error...", ctx);
                   },
