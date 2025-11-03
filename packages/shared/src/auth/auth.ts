@@ -10,6 +10,7 @@ export const auth = betterAuth({
     enabled: true,
     async sendResetPassword(data, request) {
       // TODO send an email to user with link to reset password
+      // console.log('email', data.user.id)
     },
   },
   socialProviders: {

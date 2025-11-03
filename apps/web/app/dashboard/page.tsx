@@ -10,10 +10,14 @@ export default function DashboardPage() {
   return (
     <main className="flex flex-col min-h-svh justify-center items-center gap-4">
       <div className="font-sans font-bold text-2xl">Dashboard Page</div>
-      <Button onClick={async() =>{
-        console.log("Signing out...");
-        await signOut();
-      }}>Logout</Button>
+      <Button
+        onClick={async () => {
+          console.log("Signing out...");
+          await signOut();
+        }}
+      >
+        Logout
+      </Button>
     </main>
   );
 }

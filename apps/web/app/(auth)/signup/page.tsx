@@ -187,7 +187,7 @@ export default function SignUp() {
           <p className="text-center text-xs text-neutral-500">
             Already an account?{" "}
             <span
-              className="text-orange-400"
+              className="text-orange-400 cursor-pointer"
               onClick={() => router.push("/login")}
             >
               Login
