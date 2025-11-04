@@ -1,7 +1,7 @@
 // TODO: Implement forgot password functionality
 "use client";
 
-import { Button } from "@workspace/ui/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 export default function ForgotPassword() {

@@ -1,11 +1,10 @@
-import "@workspace/ui/globals.css";
 import { Providers } from "@/components/providers";
 import { Inter } from "next/font/google";
+import "./globals.css";
 
-// Configure the font
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-sans", // defines a CSS variable
+  variable: "--font-sans",
 });
 
 export const fontSans = inter;

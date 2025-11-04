@@ -22,10 +22,3 @@ This will place the ui components in the `packages/ui/src/components` directory.
 
 Your `tailwind.config.ts` and `globals.css` are already set up to use the components from the `ui` package.
 
-## Using components
-
-To use the components in your app, import them from the `ui` package.
-
-```tsx
-import { Button } from "@workspace/ui/components/button";
-```
