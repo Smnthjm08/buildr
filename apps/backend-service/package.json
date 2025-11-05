@@ -7,12 +7,15 @@
     "server:start": "bun src/index.ts"
   },
   "devDependencies": {
-    "@workspace/eslint-config": "workspace:*",
-    "@workspace/typescript-config": "workspace:*",
-    "@workspace/shared": "workspace:*",
     "@types/bun": "latest",
+    "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.5"
+    "@types/express": "^5.0.5",
+    "@types/node": "^20.19.9",
+    "@workspace/db": "workspace:*",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/shared": "workspace:*",
+    "@workspace/typescript-config": "workspace:*"
   },
   "peerDependencies": {
     "typescript": "^5"
@@ -20,6 +23,7 @@
   "dependencies": {
     "aws-sdk": "^2.1692.0",
     "better-auth": "^1.3.34",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",

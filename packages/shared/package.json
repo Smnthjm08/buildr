@@ -4,9 +4,10 @@
   "type": "module",
   "devDependencies": {
     "@types/bun": "latest",
-    "@workspace/typescript-config": "workspace:*",
+    "@types/node": "^20.19.9",
+    "@workspace/db": "workspace:*",
     "@workspace/eslint-config": "workspace:*",
-    "@workspace/db": "workspace:*"
+    "@workspace/typescript-config": "workspace:*"
   },
   "peerDependencies": {
     "typescript": "^5"

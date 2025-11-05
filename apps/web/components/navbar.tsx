@@ -14,14 +14,24 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { signOut, useSession } from "@workspace/shared/auth/client";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Badge } from "./ui/badge";
 
-export default function Navbar() {
+interface NavbarProps {
+  workspace: {
+    id: string;
+    name: string;
+    slug: string;
+  };
+}
+
+export default function Navbar({ workspace }: NavbarProps) {
   const { data: session } = useSession();
   const pathname = usePathname();
   const router = useRouter();
+  const params = useParams();
+  const workspaceSlug = params.workspaceSlug as string;
 
   const handleLogout = async () => {
     console.log("Logging out...");
@@ -41,15 +51,19 @@ export default function Navbar() {
   };
 
   const navItems = [
-    { name: "Projects", value: "projects", href: "/dashboard" },
-    { name: "Deployments", value: "deployments", href: "/deployments" },
-    { name: "Domains", value: "domains", href: "/domains" },
-    { name: "Settings", value: "settings", href: "/settings" },
+    { name: "Projects", value: "projects", href: `/${workspaceSlug}/projects` },
+    {
+      name: "Deployments",
+      value: "deployments",
+      href: `/${workspaceSlug}/deployments`,
+    },
+    { name: "Domains", value: "domains", href: `/${workspaceSlug}/domains` },
+    { name: "Settings", value: "settings", href: `/${workspaceSlug}/settings` },
   ];
 
   const getCurrentTab = () => {
     const currentItem = navItems.find((item) =>
-      pathname?.startsWith(item.href)
+      pathname?.startsWith(item.href),
     );
     return currentItem?.value || "projects";
   };
@@ -65,7 +79,7 @@ export default function Navbar() {
         <div className="flex h-14 items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
-              href="/dashboard"
+              href={`/${workspaceSlug}/projects`}
               className="flex items-center gap-2 text-foreground hover:opacity-80"
             >
               <Inspect className="h-5 w-5" />
@@ -85,9 +99,7 @@ export default function Navbar() {
                     </AvatarFallback>
                   </Avatar>
                   <span className="text-muted-foreground">/</span>
-                  <span className="font-medium">
-                    {session.user.name}&apos;s Workspace
-                  </span>
+                  <span className="font-medium">{workspace.name}</span>
                 </div>
               </Badge>
             ) : (
@@ -144,7 +156,7 @@ export default function Navbar() {
                     className="cursor-pointer text-red-400 hover:text-red-600 font-semibold"
                   >
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span className="">Log Out</span>
+                    <span>Log Out</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -164,9 +176,7 @@ export default function Navbar() {
               <TabsTrigger
                 key={item.value}
                 value={item.value}
-                className=" max-w-[300px] bg-background data-[state=active]:border-primary dark:data-[state=active]:border-primary h-full rounded-none border-0 border-b-2 border-transparent data-[state=active]:shadow-none"
-
-                // className="rounded-none border-b-2 data-[state=active]:border-white data-[state=active]:text-foreground"
+                className="max-w-[300px] bg-background data-[state=active]:border-primary dark:data-[state=active]:border-primary h-full rounded-none border-0 border-b-2 border-transparent data-[state=active]:shadow-none"
               >
                 {item.name}
               </TabsTrigger>

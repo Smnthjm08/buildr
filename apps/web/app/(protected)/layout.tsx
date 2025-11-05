@@ -1,13 +1,10 @@
-import Navbar from "@/components/navbar";
-
-export default function ApplicationLayout({
+export default function AuthenticatedLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
     <main>
-      <Navbar />
       <div>{children}</div>
     </main>
   );

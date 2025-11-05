@@ -99,16 +99,16 @@ export default function SignUp() {
                 name: `${firstName} ${lastName}`,
                 callbackURL: "/onboarding",
                 fetchOptions: {
-                  onResponse: () => {
-                    setLoading(false);
-                  },
-                  onRequest: () => {
-                    setLoading(true);
-                  },
+                  onRequest: () => setLoading(true),
+                  onResponse: () => setLoading(false),
                   onError: (ctx) => {
                     toast.error(ctx.error.message || "Error signing up");
+                    setLoading(false);
                   },
-                  onSuccess: async () => {},
+                  onSuccess: async () => {
+                    toast.success("Account created successfully!");
+                    router.push("/onboarding"); // ✅ explicitly redirect
+                  },
                 },
               });
             }}
@@ -161,7 +161,7 @@ export default function SignUp() {
                         console.log("Signup success...", context);
                         toast.success("Successfully signed up!");
                       },
-                    },
+                    }
                   );
                 }}
               >
