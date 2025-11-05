@@ -97,7 +97,7 @@ export default function SignUp() {
                 email,
                 password,
                 name: `${firstName} ${lastName}`,
-                callbackURL: "/dashboard",
+                callbackURL: "/onboarding",
                 fetchOptions: {
                   onResponse: () => {
                     setLoading(false);
@@ -141,7 +141,7 @@ export default function SignUp() {
                   await signIn.social(
                     {
                       provider: "github",
-                      callbackURL: "/dashboard",
+                      callbackURL: "/onboarding",
                     },
                     {
                       onRequest: (ctx) => {
@@ -153,7 +153,7 @@ export default function SignUp() {
                         console.log("Signup res...", ctx);
                       },
                       onError(context) {
-                        toast.error(context.error.message );
+                        toast.error(context.error.message);
                         setLoading(false);
                         console.log("Signup error...", context);
                       },

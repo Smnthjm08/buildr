@@ -80,7 +80,7 @@ export default function SignIn() {
                 {
                   email,
                   password,
-                  callbackURL: "/dashboard",
+                  callbackURL: "/onboarding",
                 },
                 {
                   onRequest: (ctx) => {
@@ -124,7 +124,7 @@ export default function SignIn() {
                 await signIn.social(
                   {
                     provider: "github",
-                    callbackURL: "/dashboard",
+                    callbackURL: "/onboarding",
                   },
                   {
                     onRequest: (ctx) => {

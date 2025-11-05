@@ -1,6 +1,6 @@
 "use client";
 
-import { Inspect, User, LogOut, Settings, Bell, Search } from "lucide-react";
+import { Inspect, LogOut, Bell, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import {
@@ -11,14 +11,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { signOut, useSession } from "@workspace/shared/auth/client";
 import { usePathname, useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { Badge } from "./ui/badge";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -28,6 +26,8 @@ export default function Navbar() {
   const handleLogout = async () => {
     console.log("Logging out...");
     await signOut();
+    toast.success("Logged out successfully.");
+    router.push("/");
   };
 
   const getInitials = (name: string) => {
@@ -48,47 +48,66 @@ export default function Navbar() {
   ];
 
   const getCurrentTab = () => {
-    const currentItem = navItems.find(item => pathname?.startsWith(item.href));
+    const currentItem = navItems.find((item) =>
+      pathname?.startsWith(item.href)
+    );
     return currentItem?.value || "projects";
   };
 
   const handleTabChange = (value: string) => {
-    const item = navItems.find(nav => nav.value === value);
-    if (item) {
-      router.push(item.href);
-    }
+    const item = navItems.find((nav) => nav.value === value);
+    if (item) router.push(item.href);
   };
 
   return (
-    <header className="border-b bg-background">
-      {/* Top bar with logo and user */}
-      <div className=" px-4 md:px-6">
+    <header className="bg-background sticky">
+      <div className="px-6 pb-4">
         <div className="flex h-14 items-center justify-between">
-          {/* Left: Logo and project selector */}
           <div className="flex items-center gap-4">
-            <Link href="/dashboard" className="flex items-center gap-2 text-foreground hover:opacity-80">
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-2 text-foreground hover:opacity-80"
+            >
               <Inspect className="h-5 w-5" />
               <span className="font-semibold text-base">buildrr</span>
             </Link>
-            
-            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-md border bg-muted/30 text-sm">
-              <Avatar className="h-5 w-5">
-                <AvatarImage src={session?.user?.image ?? ""} alt={session?.user?.name} />
-                <AvatarFallback className="text-[10px]">
-                  {getInitials(session?.user?.name || "U")}
-                </AvatarFallback>
-              </Avatar>
-              <span className="text-muted-foreground">/</span>
-              <span className="font-medium">{session?.user?.name}&apos;s projects</span>
-            </div>
+
+            {session?.user ? (
+              <Badge>
+                <div className="flex items-center gap-2 rounded-md text-sm">
+                  <Avatar className="h-5 w-5">
+                    <AvatarImage
+                      src={session.user.image ?? ""}
+                      alt={session.user.name}
+                    />
+                    <AvatarFallback className="text-[10px]">
+                      {getInitials(session.user.name || "U")}
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="text-muted-foreground">/</span>
+                  <span className="font-medium">
+                    {session.user.name}&apos;s Workspace
+                  </span>
+                </div>
+              </Badge>
+            ) : (
+              <Badge>
+                <div className="flex items-center gap-2 rounded-md text-sm">
+                  <Avatar className="h-5 w-5">
+                    <AvatarFallback className="text-[10px]">--</AvatarFallback>
+                  </Avatar>
+                  <span className="text-muted-foreground">/</span>
+                  <span className="font-medium">Loading Workspace</span>
+                </div>
+              </Badge>
+            )}
           </div>
 
-          {/* Right: Actions and user menu */}
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="h-9 w-9 hidden md:flex">
+            <Button variant="ghost" size="icon" className="h-9 w-9">
               <Search className="h-4 w-4" />
             </Button>
-            
+
             <Button variant="ghost" size="icon" className="h-9 w-9 relative">
               <Bell className="h-4 w-4" />
             </Button>
@@ -120,22 +139,12 @@ export default function Navbar() {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <a href="/dashboard" className="cursor-pointer">
-                      <User className="mr-2 h-4 w-4" />
-                      <span>Dashboard</span>
-                    </a>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <a href="/settings" className="cursor-pointer">
-                      <Settings className="mr-2 h-4 w-4" />
-                      <span>Account Settings</span>
-                    </a>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="cursor-pointer text-red-400 hover:text-red-600 font-semibold"
+                  >
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log Out</span>
+                    <span className="">Log Out</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -144,15 +153,20 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Bottom bar with tabs */}
-      <div className="px-4 md:px-6">
-        <Tabs value={getCurrentTab()} onValueChange={handleTabChange} className="w-full">
-          <TabsList className="h-12 bg-transparent border-b-0 rounded-none p-0 w-full justify-start">
+      <div className="w-full max-w-[900px] px-6">
+        <Tabs
+          value={getCurrentTab()}
+          onValueChange={handleTabChange}
+          className="w-full"
+        >
+          <TabsList className="bg-background rounded-none p-0 justify-start">
             {navItems.map((item) => (
               <TabsTrigger
                 key={item.value}
                 value={item.value}
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+                className=" max-w-[300px] bg-background data-[state=active]:border-primary dark:data-[state=active]:border-primary h-full rounded-none border-0 border-b-2 border-transparent data-[state=active]:shadow-none"
+
+                // className="rounded-none border-b-2 data-[state=active]:border-white data-[state=active]:text-foreground"
               >
                 {item.name}
               </TabsTrigger>
