@@ -107,7 +107,7 @@ export default function SignUp() {
                   },
                   onSuccess: async () => {
                     toast.success("Account created successfully!");
-                    router.push("/onboarding"); // ✅ explicitly redirect
+                    router.push("/onboarding");
                   },
                 },
               });
@@ -161,7 +161,7 @@ export default function SignUp() {
                         console.log("Signup success...", context);
                         toast.success("Successfully signed up!");
                       },
-                    }
+                    },
                   );
                 }}
               >

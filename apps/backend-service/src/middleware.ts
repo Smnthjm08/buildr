@@ -2,7 +2,11 @@ import { auth } from "@workspace/shared/auth/server";
 import { fromNodeHeaders } from "better-auth/node";
 import { NextFunction, Request, Response } from "express";
 
-export default async function authMiddleware(req: Request, res: Response, next: NextFunction) {
+export default async function authMiddleware(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   try {
     const session = await auth.api.getSession({
       headers: fromNodeHeaders(req.headers),

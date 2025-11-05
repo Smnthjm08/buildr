@@ -1,3 +1,4 @@
+// TODO res.workspace 
 "use client";
 
 import { Inspect, LogOut, Bell, Search } from "lucide-react";
@@ -63,7 +64,7 @@ export default function Navbar({ workspace }: NavbarProps) {
 
   const getCurrentTab = () => {
     const currentItem = navItems.find((item) =>
-      pathname?.startsWith(item.href),
+      pathname?.startsWith(item.href)
     );
     return currentItem?.value || "projects";
   };
@@ -74,7 +75,7 @@ export default function Navbar({ workspace }: NavbarProps) {
   };
 
   return (
-    <header className="bg-background sticky">
+    <header className="bg-background sticky border-b-2">
       <div className="px-6 pb-4">
         <div className="flex h-14 items-center justify-between">
           <div className="flex items-center gap-4">

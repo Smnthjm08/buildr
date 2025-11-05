@@ -8,7 +8,9 @@
     "NODE_ENV",
     "BETTER_AUTH_SECRET",
     "BETTER_AUTH_URL",
-    "NEXT_PUBLIC_BACKEND_PORT"
+    "NEXT_PUBLIC_BACKEND_PORT",
+    "GITHUB_CLIENT_ID",
+    "GITHUB_CLIENT_SECRET"
   ],
   "tasks": {
     "build": {
@@ -21,7 +23,8 @@
       ],
       "outputs": [
         ".next/**",
-        "!.next/cache/**"
+        "!.next/cache/**",
+        "dist/**"
       ]
     },
     "lint": {

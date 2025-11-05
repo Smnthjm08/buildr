@@ -1,13 +1,12 @@
 import { Providers } from "@/components/providers";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const fontPoppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-sans",
+  weight: ["400", "600"],
+  variable: "--font-poppins",
 });
-
-export const fontSans = inter;
 
 export default function RootLayout({
   children,
@@ -16,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${fontPoppins.variable} font-sans antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>

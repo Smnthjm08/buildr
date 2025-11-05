@@ -1,12 +1,11 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "@workspace/db";
-import env from "../env/env";
 
 export const auth = betterAuth({
   trustedOrigins: ["http://localhost:3000", "http://localhost:8080"],
   appName: "buildrr",
-  secret: env.BETTER_AUTH_SECRET,
+  secret: process.env.BETTER_AUTH_SECRET,
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
@@ -30,6 +29,7 @@ export const auth = betterAuth({
   //     },
   //   },
   // },
+
   emailAndPassword: {
     enabled: true,
     async sendResetPassword(data, request) {
@@ -47,4 +47,14 @@ export const auth = betterAuth({
       },
     },
   },
+  // plugins: [
+  //       customSession(async ({ user, session }) => {
+  //           const workspace = "shbdncjwjnd";
+  //           return {
+  //               workspace,
+  //               user,
+  //               session
+  //           };
+  //       }),
+  //   ],
 });

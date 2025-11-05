@@ -44,7 +44,7 @@ export default function OnboardingPage() {
         const workspace = await getUserWorkspace();
 
         if (workspace) {
-          router.push(`/${workspace.slug}`);
+          router.push(`/${workspace.slug}/projects`);
         }
       } catch (err) {
         console.error("Error checking workspace:", err);
@@ -66,11 +66,11 @@ export default function OnboardingPage() {
       const response = await axios.post(
         `http://localhost:8080/api/workspace`,
         { name, slug },
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       toast.success("Workspace created successfully!");
-      router.push(`/${response.data.slug}`);
+      router.push(`/${response.data.slug}/projects`);
     } catch (err: any) {
       console.error("Error creating workspace:", err);
       if (err.response?.status === 422) {
@@ -154,9 +154,7 @@ export default function OnboardingPage() {
               </FieldDescription>
             </Field>
 
-            {error && (
-              <p className="text-red-500 text-sm mt-2">{error}</p>
-            )}
+            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </FieldSet>
 
           {/* Submit + Cancel */}

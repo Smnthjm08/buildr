@@ -7,7 +7,7 @@ import { auth } from "@workspace/shared/auth/server";
 import { fromNodeHeaders, toNodeHandler } from "better-auth/node";
 import authMiddleware from "./middleware";
 import prisma from "@workspace/db";
-import cookieParser from "cookie-parser"
+import cookieParser from "cookie-parser";
 
 dotenv.config({ path: resolve(__dirname, "../../../.env") });
 
@@ -19,15 +19,13 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:3000", // no trailing slash
+    origin: "http://localhost:3000",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    exposedHeaders: ['set-cookie'],
-  })
+    exposedHeaders: ["set-cookie"],
+  }),
 );
-
-
 
 console.log("Starting backend service...");
 
@@ -41,10 +39,10 @@ app.get("/api/health", (req, res) => {
 // });
 
 app.get("/api/me/", async (req, res) => {
- 	const session = await auth.api.getSession({
-      headers: fromNodeHeaders(req.headers),
-    });
-	return res.json(session);
+  const session = await auth.api.getSession({
+    headers: fromNodeHeaders(req.headers),
+  });
+  return res.json(session);
 });
 
 app.post(
@@ -78,7 +76,7 @@ app.post(
     } catch (error) {
       console.log("error creating workspace\n", error);
     }
-  }
+  },
 );
 
 const PORT = env.BACKEND_PORT || 7000;
