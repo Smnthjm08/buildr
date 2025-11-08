@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "@workspace/db";
+import { customSession } from "better-auth/plugins";
 
 export const auth = betterAuth({
   trustedOrigins: ["http://localhost:3000", "http://localhost:8080"],
@@ -47,14 +48,24 @@ export const auth = betterAuth({
       },
     },
   },
-  // plugins: [
-  //       customSession(async ({ user, session }) => {
-  //           const workspace = "shbdncjwjnd";
-  //           return {
-  //               workspace,
-  //               user,
-  //               session
-  //           };
-  //       }),
-  //   ],
+  plugins: [
+    customSession(async ({ user, session }) => {
+      const workspace = await prisma.workspace.findFirst({
+        where: {
+          userId: user?.id,
+        },
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          userId: true,
+        },
+      });
+      return {
+        workspace,
+        user,
+        session,
+      };
+    }),
+  ],
 });

@@ -1,4 +1,4 @@
-// TODO res.workspace 
+// TODO res.workspace
 "use client";
 
 import { Inspect, LogOut, Bell, Search } from "lucide-react";
@@ -18,13 +18,15 @@ import { signOut, useSession } from "@workspace/shared/auth/client";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Badge } from "./ui/badge";
+import { Skeleton } from "./ui/skeleton";
 
 interface NavbarProps {
   workspace: {
     id: string;
     name: string;
     slug: string;
-  };
+    userId: string;
+  } | null;
 }
 
 export default function Navbar({ workspace }: NavbarProps) {
@@ -76,7 +78,7 @@ export default function Navbar({ workspace }: NavbarProps) {
 
   return (
     <header className="bg-background sticky border-b-2">
-      <div className="px-6 pb-4">
+      <div className="px-8 pb-4">
         <div className="flex h-14 items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
@@ -100,7 +102,9 @@ export default function Navbar({ workspace }: NavbarProps) {
                     </AvatarFallback>
                   </Avatar>
                   <span className="text-muted-foreground">/</span>
-                  <span className="font-medium">{workspace.name}</span>
+                  <span className="font-medium">
+                    {workspace?.name ?? "Loading..."}
+                  </span>
                 </div>
               </Badge>
             ) : (
@@ -125,7 +129,7 @@ export default function Navbar({ workspace }: NavbarProps) {
               <Bell className="h-4 w-4" />
             </Button>
 
-            {session?.user && (
+            {session?.user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="h-9 w-9 rounded-full p-0">
@@ -161,12 +165,13 @@ export default function Navbar({ workspace }: NavbarProps) {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-            )}
+            ):       <Skeleton className="h-12 w-12 rounded-full" />
+}
           </div>
         </div>
       </div>
 
-      <div className="w-full max-w-[900px] px-6">
+      <div className="w-full max-w-[1200px] px-6">
         <Tabs
           value={getCurrentTab()}
           onValueChange={handleTabChange}

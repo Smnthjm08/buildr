@@ -1,13 +1,15 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, Router } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import env from "@workspace/shared/env";
 import { resolve } from "path";
 import { auth } from "@workspace/shared/auth/server";
 import { fromNodeHeaders, toNodeHandler } from "better-auth/node";
-import authMiddleware from "./middleware";
+import authMiddleware from "./middlewares/auth.middleware";
 import prisma from "@workspace/db";
 import cookieParser from "cookie-parser";
+import simpleGit from "simple-git";
+import projectsRoute from "./routes/project.routes";
 
 dotenv.config({ path: resolve(__dirname, "../../../.env") });
 
@@ -24,13 +26,22 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     exposedHeaders: ["set-cookie"],
-  }),
+  })
 );
 
 console.log("Starting backend service...");
 
-app.get("/api/health", (req, res) => {
-  res.status(200).send({ status: "ok", env: process.env.NODE_ENV! });
+const v1Route = Router();
+
+app.use("/api/v1", v1Route);
+v1Route.use("/projects", projectsRoute);
+
+app.get("/", (req, res) => {
+  res.status(200).send({
+    service: "backend-service",
+    status: "ok",
+    env: process.env.NODE_ENV!,
+  });
 });
 
 // app.get("/api/me", authMiddleware, async (req: Request, res) => {
@@ -38,15 +49,15 @@ app.get("/api/health", (req, res) => {
 //   return res.status(200).json(req.user);
 // });
 
-app.get("/api/me/", async (req, res) => {
+v1Route.get("/me/", async (req, res) => {
   const session = await auth.api.getSession({
     headers: fromNodeHeaders(req.headers),
   });
   return res.json(session);
 });
 
-app.post(
-  "/api/workspace/",
+v1Route.post(
+  "/workspace/",
   authMiddleware,
   async (req: Request, res: Response) => {
     try {
@@ -75,9 +86,28 @@ app.post(
       return;
     } catch (error) {
       console.log("error creating workspace\n", error);
+      return;
     }
-  },
+  }
 );
+
+v1Route.post("/deploy", authMiddleware, async (req: Request, res: Response) => {
+  try {
+    const { githubUrl } = req.body;
+
+    console.log("github", githubUrl);
+    const id = Math.random();
+    const code = await simpleGit().clone(githubUrl, `outputs/${id}`);
+    console.log("code", code);
+
+    res.status(200).json(code);
+
+    return;
+  } catch (error) {
+    console.log("error deploy the application\n", error);
+    return;
+  }
+});
 
 const PORT = env.BACKEND_PORT || 7000;
 console.log(`Using port: ${PORT}`, process.env.NODE_ENV!);
