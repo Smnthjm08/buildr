@@ -131,10 +131,10 @@ model Deployment {
 }
 
 model GitHubIntegration {
-  id             String  @id @default(cuid())
-  installationId String
-  accessToken    String
-  refreshToken   String?
+  id                   String   @id @default(cuid())
+  installationId       String
+  accessToken          String
+  accessTokenExpiresAt DateTime
 
   workspaceId String    @unique
   workspace   Workspace @relation(fields: [workspaceId], references: [id])

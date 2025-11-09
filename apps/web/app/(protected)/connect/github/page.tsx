@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = "force-dynamic";
 
 import { axiosInstance } from "@/utils/axios";
 import { useSession } from "@workspace/shared/auth/client";
@@ -42,7 +43,7 @@ export default function ConnectGithubPage() {
     };
 
     connectInstallation();
-  }, [installationId, isPending, session]);
+  }, [installationId, isPending, router, session, setupAction]);
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen text-muted-foreground">

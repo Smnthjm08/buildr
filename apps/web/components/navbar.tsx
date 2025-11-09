@@ -52,7 +52,11 @@ export default function Navbar({ workspace }: NavbarProps) {
 
   const navItems = [
     { name: "Projects", value: "projects", href: `/${workspaceSlug}` },
-    { name: "Deployments", value: "deployments", href: `/${workspaceSlug}/deployments` },
+    {
+      name: "Deployments",
+      value: "deployments",
+      href: `/${workspaceSlug}/deployments`,
+    },
     { name: "Domains", value: "domains", href: `/${workspaceSlug}/domains` },
     { name: "Settings", value: "settings", href: `/${workspaceSlug}/settings` },
   ] as const;
@@ -74,7 +78,10 @@ export default function Navbar({ workspace }: NavbarProps) {
         <div className="flex h-14 items-center justify-between">
           {/* Left Section */}
           <div className="flex items-center gap-4">
-            <Link href={`/${workspaceSlug}`} className="flex items-center gap-2 hover:opacity-80">
+            <Link
+              href={`/${workspaceSlug}`}
+              className="flex items-center gap-2 hover:opacity-80"
+            >
               <Inspect className="h-5 w-5" />
               <span className="font-semibold text-base">buildrr</span>
             </Link>
@@ -82,8 +89,13 @@ export default function Navbar({ workspace }: NavbarProps) {
             <Badge>
               <div className="flex items-center gap-2 text-sm">
                 <Avatar className="h-5 w-5">
-                  <AvatarImage src={session?.user?.image ?? ""} alt={session?.user?.name ?? "User"} />
-                  <AvatarFallback className="text-[10px]">{getInitials(session?.user?.name)}</AvatarFallback>
+                  <AvatarImage
+                    src={session?.user?.image ?? ""}
+                    alt={session?.user?.name ?? "User"}
+                  />
+                  <AvatarFallback className="text-[10px]">
+                    {getInitials(session?.user?.name)}
+                  </AvatarFallback>
                 </Avatar>
                 <span className="text-muted-foreground">/</span>
                 <span className="font-medium">{workspace.name}</span>
@@ -105,7 +117,10 @@ export default function Navbar({ workspace }: NavbarProps) {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-9 w-9 rounded-full p-0">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src={session?.user?.image ?? ""} alt={session?.user?.name ?? "User"} />
+                    <AvatarImage
+                      src={session?.user?.image ?? ""}
+                      alt={session?.user?.name ?? "User"}
+                    />
                     <AvatarFallback className="text-xs">
                       {getInitials(session?.user?.name)}
                     </AvatarFallback>
@@ -115,8 +130,12 @@ export default function Navbar({ workspace }: NavbarProps) {
               <DropdownMenuContent className="w-56" align="end">
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{session?.user?.name}</p>
-                    <p className="text-xs text-muted-foreground">{session?.user?.email}</p>
+                    <p className="text-sm font-medium leading-none">
+                      {session?.user?.name}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {session?.user?.email}
+                    </p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
@@ -135,13 +154,17 @@ export default function Navbar({ workspace }: NavbarProps) {
 
       {/* Nav Tabs */}
       <div className="w-full max-w-[1200px] px-6">
-        <Tabs value={getCurrentTab()} onValueChange={handleTabChange} className="w-full">
+        <Tabs
+          value={getCurrentTab()}
+          onValueChange={handleTabChange}
+          className="w-full"
+        >
           <TabsList className="bg-background rounded-none p-0 justify-start">
             {navItems.map((item) => (
               <TabsTrigger
                 key={item.value}
                 value={item.value}
-                className="w-[120px] rounded-none border-b-2 border-transparent data-[state=active]:border-primary"
+                className="max-w-[300px] hover:cursor-pointer bg-background data-[state=active]:border-primary dark:data-[state=active]:border-primary h-full rounded-none border-0 border-b-2 border-transparent data-[state=active]:shadow-none"
               >
                 {item.name}
               </TabsTrigger>

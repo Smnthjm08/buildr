@@ -1,9 +1,7 @@
-export default function NewProjectPage(){
-    return (
-        <main>
-            <div>
-                new project page
-            </div>
-        </main>
-    )
+export default function NewProjectPage() {
+  return (
+    <main>
+      <div>new project page</div>
+    </main>
+  );
 }

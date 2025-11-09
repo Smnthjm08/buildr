@@ -11,7 +11,7 @@ export const getRepoInfo = async (req: Request, res: Response) => {
 
     const git = simpleGit();
 
-    const test = await git.fetch(githubUrl)
+    const test = await git.fetch(githubUrl);
 
     const status = await git.status();
     const remotes = await git.getRemotes(true);

@@ -31,7 +31,7 @@ app.use(
 
 console.log("Starting backend service...");
 
-app.get("/", (_req: Request, res:Response) => {
+app.get("/", (_req: Request, res: Response) => {
   res.status(200).send({
     service: "backend-service",
     status: "ok",
@@ -53,7 +53,6 @@ v1Route.get("/me/", async (req, res) => {
   });
   return res.json(session);
 });
-
 
 const PORT = env.BACKEND_PORT || 7000;
 console.log(`Using port: ${PORT}`, process.env.NODE_ENV!);

@@ -1,6 +1,23 @@
 import { createProjectSchema } from "@workspace/shared/schema/projects";
 import prisma from "@workspace/db";
 import { Request, Response } from "express";
+import { getInstallationRepositories } from "../utils/get-repos";
+
+function transformRepo(repo: any) {
+  return {
+    id: repo.id,
+    name: repo.name,
+    fullName: repo.full_name,
+    private: repo.private,
+    description: repo.description,
+    visibility: repo.visibility,
+    url: repo.html_url,
+    user: repo.owner.login,
+    defaultBranch: repo.default_branch,
+    language: repo.language,
+    updatedAt: repo.updated_at,
+  };
+}
 
 export const getProjects = async (req: Request, res: Response) => {
   try {
@@ -17,12 +34,26 @@ export const getProjects = async (req: Request, res: Response) => {
       orderBy: { createdAt: "desc" },
     });
 
+    let repositories = [];
+    const integration = await prisma.gitHubIntegration.findUnique({
+      where: { workspaceId: workspace.id },
+    });
+
+    if (integration) {
+      const allRepos = await getInstallationRepositories(workspace.id);
+      repositories = allRepos.map(transformRepo);
+    }
+
     return res.status(200).json({
-      message: "Project fetched successfully",
-      data: projects,
+      message: "Projects fetched successfully",
+      data: {
+        projects,
+        repositories,
+        integration,
+      },
     });
   } catch (error) {
-    console.error("error fetching projects", error);
+    console.error("Error fetching projects:", error);
     return res.status(500).json({ error: "Error fetching projects" });
   }
 };
@@ -41,12 +72,28 @@ export const createProject = async (req: Request, res: Response) => {
     const { name, slug, repoUrl, framework, outputDir, buildCommand } =
       parsed.data;
 
-    // TODO: Save to DB
-    // const project = await prisma.project.create({ data: {...} })
+    const workspaceId = req.workspace?.id;
+    if (!workspaceId) {
+      return res
+        .status(403)
+        .json({ error: "Workspace not found or unauthorized." });
+    }
+
+    const project = await prisma.project.create({
+      data: {
+        name,
+        slug,
+        repoUrl,
+        framework,
+        outputDir,
+        buildCommand,
+        workspaceId,
+      },
+    });
 
     return res.status(201).json({
       message: "Project created successfully",
-      data: { name, slug, repoUrl, framework, outputDir, buildCommand },
+      data: project,
     });
   } catch (error) {
     console.error("Error creating a project:", error);

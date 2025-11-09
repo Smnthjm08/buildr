@@ -5,8 +5,8 @@ export const createWorkspace = async (req: Request, res: Response) => {
   try {
     const { name, slug } = req.body;
 
-    if(!name || !slug){
-      res.status(500).json({message: "Missing name/slug inputs"})
+    if (!name || !slug) {
+      res.status(500).json({ message: "Missing name/slug inputs" });
     }
 
     const existingSlug = await prisma.workspace.findUnique({

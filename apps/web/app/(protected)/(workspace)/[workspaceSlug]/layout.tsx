@@ -16,7 +16,6 @@ export default function WorkSpaceLayout({
   const { workspaceSlug } = useParams() as { workspaceSlug?: string };
   const { data: session, isPending } = useSession();
 
-
   useEffect(() => {
     if (isPending) return;
 
@@ -53,8 +52,8 @@ export default function WorkSpaceLayout({
       )}
 
       <div className="w-full flex justify-center">
-        {showContent &&
-          children
+        {
+          showContent && children
           // ) : (
           // <div className="flex flex-col items-center gap-3 py-10 text-muted-foreground">
           // <LoaderIcon className="h-5 w-5 animate-spin" />

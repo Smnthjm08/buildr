@@ -1,6 +1,9 @@
 import { Router } from "express";
 import authMiddleware from "../middlewares/auth.middleware";
-import { connectGitHub, getGitHubRepos } from "../controllers/github.controller";
+import {
+  connectGitHub,
+  getGitHubRepos,
+} from "../controllers/github.controller";
 
 const githubRoutes = Router();
 

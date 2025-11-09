@@ -16,22 +16,19 @@ export const connectGitHub = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Workspace not found" });
     }
 
-    // Fetch existing integration
+    const tokenData = await getInstallationAccessToken(Number(installationId));
+
     const existing = await prisma.gitHubIntegration.findUnique({
       where: { workspaceId },
     });
 
-    // Get GitHub access token
-    const tokenData = await getInstallationAccessToken(installationId);
-
-    // Create or update integration
     if (existing) {
       await prisma.gitHubIntegration.update({
         where: { workspaceId },
         data: {
           installationId: installationId.toString(),
           accessToken: tokenData.token,
-          refreshToken: tokenData?.refresh_token ?? existing.refreshToken,
+          accessTokenExpiresAt: tokenData.expiresAt,
         },
       });
     } else {
@@ -39,7 +36,7 @@ export const connectGitHub = async (req: Request, res: Response) => {
         data: {
           installationId: installationId.toString(),
           accessToken: tokenData.token,
-          refreshToken: tokenData?.refresh_token ?? null,
+          accessTokenExpiresAt: tokenData.expiresAt,
           workspaceId,
         },
       });
@@ -68,7 +65,9 @@ export const getGitHubRepos = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "GitHub not connected" });
     }
 
-    const repositories = await getInstallationRepositories(integration.accessToken);
+    const repositories = await getInstallationRepositories(
+      integration.accessToken,
+    );
 
     return res.status(200).json({ repositories });
   } catch (error) {
