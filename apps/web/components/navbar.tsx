@@ -1,4 +1,3 @@
-// TODO res.workspace 
 "use client";
 
 import { Inspect, LogOut, Bell, Search } from "lucide-react";
@@ -24,6 +23,7 @@ interface NavbarProps {
     id: string;
     name: string;
     slug: string;
+    userId: string;
   };
 }
 
@@ -35,13 +35,12 @@ export default function Navbar({ workspace }: NavbarProps) {
   const workspaceSlug = params.workspaceSlug as string;
 
   const handleLogout = async () => {
-    console.log("Logging out...");
     await signOut();
     toast.success("Logged out successfully.");
     router.push("/");
   };
 
-  const getInitials = (name: string) => {
+  const getInitials = (name?: string) => {
     if (!name) return "U";
     return name
       .split(" ")
@@ -52,7 +51,7 @@ export default function Navbar({ workspace }: NavbarProps) {
   };
 
   const navItems = [
-    { name: "Projects", value: "projects", href: `/${workspaceSlug}/projects` },
+    { name: "Projects", value: "projects", href: `/${workspaceSlug}` },
     {
       name: "Deployments",
       value: "deployments",
@@ -60,13 +59,12 @@ export default function Navbar({ workspace }: NavbarProps) {
     },
     { name: "Domains", value: "domains", href: `/${workspaceSlug}/domains` },
     { name: "Settings", value: "settings", href: `/${workspaceSlug}/settings` },
-  ];
+  ] as const;
 
   const getCurrentTab = () => {
-    const currentItem = navItems.find((item) =>
-      pathname?.startsWith(item.href)
-    );
-    return currentItem?.value || "projects";
+    const sorted = [...navItems].sort((a, b) => b.href.length - a.href.length);
+    const currentItem = sorted.find((item) => pathname?.startsWith(item.href));
+    return currentItem?.value || navItems[0].value;
   };
 
   const handleTabChange = (value: string) => {
@@ -75,47 +73,37 @@ export default function Navbar({ workspace }: NavbarProps) {
   };
 
   return (
-    <header className="bg-background sticky border-b-2">
-      <div className="px-6 pb-4">
+    <header className="bg-background sticky top-0 z-50 border-b">
+      <div className="px-6 pb-3">
         <div className="flex h-14 items-center justify-between">
+          {/* Left Section */}
           <div className="flex items-center gap-4">
             <Link
-              href={`/${workspaceSlug}/projects`}
-              className="flex items-center gap-2 text-foreground hover:opacity-80"
+              href={`/${workspaceSlug}`}
+              className="flex items-center gap-2 hover:opacity-80"
             >
               <Inspect className="h-5 w-5" />
               <span className="font-semibold text-base">buildrr</span>
             </Link>
 
-            {session?.user ? (
-              <Badge>
-                <div className="flex items-center gap-2 rounded-md text-sm">
-                  <Avatar className="h-5 w-5">
-                    <AvatarImage
-                      src={session.user.image ?? ""}
-                      alt={session.user.name}
-                    />
-                    <AvatarFallback className="text-[10px]">
-                      {getInitials(session.user.name || "U")}
-                    </AvatarFallback>
-                  </Avatar>
-                  <span className="text-muted-foreground">/</span>
-                  <span className="font-medium">{workspace.name}</span>
-                </div>
-              </Badge>
-            ) : (
-              <Badge>
-                <div className="flex items-center gap-2 rounded-md text-sm">
-                  <Avatar className="h-5 w-5">
-                    <AvatarFallback className="text-[10px]">--</AvatarFallback>
-                  </Avatar>
-                  <span className="text-muted-foreground">/</span>
-                  <span className="font-medium">Loading Workspace</span>
-                </div>
-              </Badge>
-            )}
+            <Badge>
+              <div className="flex items-center gap-2 text-sm">
+                <Avatar className="h-5 w-5">
+                  <AvatarImage
+                    src={session?.user?.image ?? ""}
+                    alt={session?.user?.name ?? "User"}
+                  />
+                  <AvatarFallback className="text-[10px]">
+                    {getInitials(session?.user?.name)}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="text-muted-foreground">/</span>
+                <span className="font-medium">{workspace.name}</span>
+              </div>
+            </Badge>
           </div>
 
+          {/* Right Section */}
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" className="h-9 w-9">
               <Search className="h-4 w-4" />
@@ -125,48 +113,47 @@ export default function Navbar({ workspace }: NavbarProps) {
               <Bell className="h-4 w-4" />
             </Button>
 
-            {session?.user && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="h-9 w-9 rounded-full p-0">
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage
-                        src={session.user.image ?? ""}
-                        alt={session.user.name}
-                      />
-                      <AvatarFallback className="text-xs">
-                        {getInitials(session.user.name)}
-                      </AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end" forceMount>
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        {session.user.name}
-                      </p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        {session.user.email}
-                      </p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={handleLogout}
-                    className="cursor-pointer text-red-400 hover:text-red-600 font-semibold"
-                  >
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log Out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-9 w-9 rounded-full p-0">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage
+                      src={session?.user?.image ?? ""}
+                      alt={session?.user?.name ?? "User"}
+                    />
+                    <AvatarFallback className="text-xs">
+                      {getInitials(session?.user?.name)}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end">
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">
+                      {session?.user?.name}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {session?.user?.email}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="cursor-pointer text-red-500 hover:text-red-600 font-semibold"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Log Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
 
-      <div className="w-full max-w-[900px] px-6">
+      {/* Nav Tabs */}
+      <div className="w-full max-w-[1200px] px-6">
         <Tabs
           value={getCurrentTab()}
           onValueChange={handleTabChange}
@@ -177,7 +164,7 @@ export default function Navbar({ workspace }: NavbarProps) {
               <TabsTrigger
                 key={item.value}
                 value={item.value}
-                className="max-w-[300px] bg-background data-[state=active]:border-primary dark:data-[state=active]:border-primary h-full rounded-none border-0 border-b-2 border-transparent data-[state=active]:shadow-none"
+                className="max-w-[300px] hover:cursor-pointer bg-background data-[state=active]:border-primary dark:data-[state=active]:border-primary h-full rounded-none border-0 border-b-2 border-transparent data-[state=active]:shadow-none"
               >
                 {item.name}
               </TabsTrigger>

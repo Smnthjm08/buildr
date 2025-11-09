@@ -1,25 +1,12 @@
 {
   "name": "backend-service",
-  "module": "src/index.ts",
   "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "bun --watch src/index.ts",
-    "server:start": "bun src/index.ts",
-        "build": "tsc"
-  },
-  "devDependencies": {
-    "@types/bun": "latest",
-    "@types/cookie-parser": "^1.4.10",
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.5",
-    "@types/node": "^20.19.9",
-    "@workspace/db": "workspace:*",
-    "@workspace/eslint-config": "workspace:*",
-    "@workspace/shared": "workspace:*",
-    "@workspace/typescript-config": "workspace:*"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
+    "build": "tsc",
+    "start": "bun src/index.ts"
   },
   "dependencies": {
     "aws-sdk": "^2.1692.0",
@@ -28,7 +15,21 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "redis": "^5.9.0",
     "simple-git": "^3.29.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.5",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^20.19.9",
+    "@workspace/db": "workspace:*",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/shared": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "typescript": "^5.7.3"
   }
 }

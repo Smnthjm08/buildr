@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -27,7 +26,8 @@ import {
 } from "@/components/ui/tooltip";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { toast } from "sonner";
-import { getUserWorkspace } from "@/actions/workspace/check-workspace";
+import { axiosInstance } from "@/utils/axios";
+import { useSession } from "@workspace/shared/auth/client";
 
 export default function OnboardingPage() {
   const [name, setName] = useState("");
@@ -36,15 +36,15 @@ export default function OnboardingPage() {
   const [checking, setChecking] = useState(true);
   const [error, setError] = useState("");
   const router = useRouter();
+  const { data: session } = useSession();
 
-  // ✅ Check if user already has a workspace
   useEffect(() => {
     async function checkWorkspace() {
       try {
-        const workspace = await getUserWorkspace();
+        const workspace = session?.workspace;
 
         if (workspace) {
-          router.push(`/${workspace.slug}/projects`);
+          router.push(`/${workspace.slug}/`);
         }
       } catch (err) {
         console.error("Error checking workspace:", err);
@@ -54,7 +54,7 @@ export default function OnboardingPage() {
       }
     }
     checkWorkspace();
-  }, [router]);
+  }, [router, session?.workspace]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -63,14 +63,13 @@ export default function OnboardingPage() {
     setError("");
 
     try {
-      const response = await axios.post(
-        `http://localhost:8080/api/workspace`,
-        { name, slug },
-        { withCredentials: true },
-      );
+      const response = await axiosInstance.post("/workspace", {
+        slug,
+        name,
+      });
 
       toast.success("Workspace created successfully!");
-      router.push(`/${response.data.slug}/projects`);
+      router.push(`/${response.data.slug}/`);
     } catch (err: any) {
       console.error("Error creating workspace:", err);
       if (err.response?.status === 422) {
@@ -106,7 +105,6 @@ export default function OnboardingPage() {
               Create your workspace to start deploying.
             </FieldDescription>
 
-            {/* Workspace Name */}
             <Field>
               <FieldLabel htmlFor="name">Workspace Name</FieldLabel>
               <Input
@@ -119,7 +117,6 @@ export default function OnboardingPage() {
               />
             </Field>
 
-            {/* Workspace Slug / URL */}
             <Field>
               <FieldLabel htmlFor="workspace-slug">Workspace URL</FieldLabel>
               <InputGroup>
@@ -157,7 +154,6 @@ export default function OnboardingPage() {
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </FieldSet>
 
-          {/* Submit + Cancel */}
           <Field
             orientation="horizontal"
             className="mt-6 gap-3 flex justify-end"

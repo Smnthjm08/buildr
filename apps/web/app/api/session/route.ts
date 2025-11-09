@@ -1,4 +1,4 @@
-// TODO res.workspace 
+// TODO res.workspace
 import { auth } from "@workspace/shared/auth/server";
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";

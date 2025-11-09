@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest) {
       if (res.ok) {
         const { workspaceSlug } = await res.json();
         return NextResponse.redirect(
-          new URL(`/${workspaceSlug ?? "default"}/projects`, request.url)
+          new URL(`/${workspaceSlug ?? "default"}/projects`, request.url),
         );
       }
     } catch (err) {
