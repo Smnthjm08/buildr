@@ -69,8 +69,7 @@ export const createProject = async (req: Request, res: Response) => {
       });
     }
 
-    const { name, slug, repoUrl, framework, outputDir, buildCommand } =
-      parsed.data;
+    const { name, repoUrl, framework, outputDir, buildCommand } = parsed.data;
 
     const workspaceId = req.workspace?.id;
     if (!workspaceId) {
@@ -82,7 +81,7 @@ export const createProject = async (req: Request, res: Response) => {
     const project = await prisma.project.create({
       data: {
         name,
-        slug,
+        slug: name,
         repoUrl,
         framework,
         outputDir,

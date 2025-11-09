@@ -8,7 +8,6 @@ import { ProjectCard } from "@/components/project-card";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import { ImportIcon } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 interface Project {
@@ -72,7 +71,7 @@ export default function ProjectsPage() {
   return (
     <div className="w-full min-h-screen px-4">
       <div className="border-b border-border bg-secondary/30">
-        <div className="w-full px-8 py-12">
+        <div className="w-full px-8 py-6">
           <h1 className="text-4xl font-bold text-foreground mb-2">
             Let&apos;s build something new
           </h1>
@@ -163,33 +162,45 @@ export default function ProjectsPage() {
                 </h2>
                 <div className="space-y-2 max-h-96 overflow-y-auto">
                   {repositories.map((repo, idx) => (
-                    <Link
+                    <div
                       key={idx}
-                      href={repo.url}
-                      rel="noopener noreferrer"
-                      className="block bg-card border border-border rounded p-3 hover:border-primary/50 hover:bg-secondary/50 transition-all"
+                      className="bg-card border border-border rounded p-3 hover:border-primary/50 hover:bg-secondary/50 transition-all"
                     >
                       <div className="flex items-start justify-between gap-2 mb-1">
                         <p className="font-medium text-sm text-foreground truncate">
                           {repo.name}
                         </p>
-                        <div className="flex gap-2">
+
+                        <div className="flex gap-2 items-center">
+                          {/* Import Button */}
                           <Button
-                            className="h-6"
-                            size={"sm"}
-                            onClick={() => router.push("")}
+                            className="h-6 cursor-pointer"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent opening repo URL
+                              router.push(`/new/github?repo=${repo.url}`);
+                            }}
                           >
                             Import
-                            <ImportIcon className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                            <ImportIcon className="w-4 h-4 flex-shrink-0 ml-1" />
                           </Button>
-                          <ExternalLinkIcon className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+
+                          <ExternalLinkIcon
+                            className="w-4 h-4 text-muted-foreground hover:text-foreground cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent parent click
+                              window.open(repo.url, "_blank");
+                            }}
+                          />
                         </div>
                       </div>
+
                       {repo.description && (
                         <p className="text-xs text-muted-foreground truncate">
                           {repo.description}
                         </p>
                       )}
+
                       <div className="flex items-center gap-3 text-xs text-muted-foreground mt-2">
                         {repo.language && (
                           <span className="inline-flex items-center gap-1">
@@ -201,7 +212,7 @@ export default function ProjectsPage() {
                           <span>⭐ {repo.stars}</span>
                         )}
                       </div>
-                    </Link>
+                    </div>
                   ))}
                 </div>
               </div>
