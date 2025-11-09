@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import simpleGit from "simple-git";
+import { simpleGit } from "simple-git";
 
 export const getRepoInfo = async (req: Request, res: Response) => {
   try {
@@ -13,8 +13,8 @@ export const getRepoInfo = async (req: Request, res: Response) => {
 
     const test = await git.fetch(githubUrl);
 
-    const status = await git.status();
-    const remotes = await git.getRemotes(true);
+    // const status = await git.status();
+    // const remotes = await git.getRemotes(true);
 
     return res.status(200).json({
       message: "Fetched repo info successfully",

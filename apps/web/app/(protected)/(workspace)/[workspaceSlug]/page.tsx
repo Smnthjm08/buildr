@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { ProjectCard } from "@/components/project-card";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
-import {ImportIcon } from "lucide-react";
+import { ImportIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -174,7 +174,11 @@ export default function ProjectsPage() {
                           {repo.name}
                         </p>
                         <div className="flex gap-2">
-                          <Button className="h-6" size={"sm"} onClick={()=>router.push("")} >
+                          <Button
+                            className="h-6"
+                            size={"sm"}
+                            onClick={() => router.push("")}
+                          >
                             Import
                             <ImportIcon className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                           </Button>
