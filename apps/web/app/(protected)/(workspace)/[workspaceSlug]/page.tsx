@@ -7,9 +7,7 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 
 export default function ProjectsPage() {
-  const [githubUrl, setGithubUrl] = useState(
-    "https://github.com/smnthjm08/buildrr"
-  );
+  const [githubUrl, setGithubUrl] = useState("");
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {

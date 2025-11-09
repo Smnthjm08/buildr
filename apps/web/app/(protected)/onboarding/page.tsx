@@ -63,7 +63,7 @@ export default function OnboardingPage() {
     setError("");
 
     try {
-      const response = await axiosInstance.post("/api/workspace", {
+      const response = await axiosInstance.post("/workspace", {
         slug,
         name,
       });

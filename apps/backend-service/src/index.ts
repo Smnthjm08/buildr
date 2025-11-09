@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import projectsRoutes from "./routes/project.routes";
 import workspaceRoutes from "./routes/workspace.routes";
 import gitRoutes from "./routes/git.routes";
+import githubRoutes from "./routes/github.routes";
 
 dotenv.config({ path: resolve(__dirname, "../../../.env") });
 
@@ -44,6 +45,7 @@ app.use("/api/v1", v1Route);
 v1Route.use("/project", projectsRoutes);
 v1Route.use("/workspace", workspaceRoutes);
 v1Route.use("/git", gitRoutes);
+v1Route.use("/github", githubRoutes);
 
 v1Route.get("/me/", async (req, res) => {
   const session = await auth.api.getSession({
