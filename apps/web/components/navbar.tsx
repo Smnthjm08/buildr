@@ -53,8 +53,8 @@ export default function Navbar({ workspace }: NavbarProps) {
       .slice(0, 2);
   };
 
-  const navItems = [
-    { name: "Projects", value: "projects", href: `/${workspaceSlug}/projects` },
+  const navItems: { name: string; value: string; href: string }[] = [
+    { name: "Projects", value: "projects", href: `/${workspaceSlug}` },
     {
       name: "Deployments",
       value: "deployments",
@@ -64,11 +64,12 @@ export default function Navbar({ workspace }: NavbarProps) {
     { name: "Settings", value: "settings", href: `/${workspaceSlug}/settings` },
   ];
 
-  const getCurrentTab = () => {
-    const currentItem = navItems.find((item) =>
-      pathname?.startsWith(item.href)
-    );
-    return currentItem?.value || "projects";
+  const getCurrentTab = (): string => {
+    if (navItems.length === 0) return "";
+    if (!pathname) return navItems[0].value;
+    const sorted = [...navItems].sort((a, b) => b.href.length - a.href.length);
+    const currentItem = sorted.find((item) => pathname.startsWith(item.href));
+    return currentItem?.value || navItems[0].value;
   };
 
   const handleTabChange = (value: string) => {
@@ -82,7 +83,7 @@ export default function Navbar({ workspace }: NavbarProps) {
         <div className="flex h-14 items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
-              href={`/${workspaceSlug}/projects`}
+              href={`/${workspaceSlug}/`}
               className="flex items-center gap-2 text-foreground hover:opacity-80"
             >
               <Inspect className="h-5 w-5" />
@@ -165,8 +166,9 @@ export default function Navbar({ workspace }: NavbarProps) {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-            ):       <Skeleton className="h-12 w-12 rounded-full" />
-}
+            ) : (
+              <Skeleton className="h-12 w-12 rounded-full" />
+            )}
           </div>
         </div>
       </div>
@@ -182,7 +184,7 @@ export default function Navbar({ workspace }: NavbarProps) {
               <TabsTrigger
                 key={item.value}
                 value={item.value}
-                className="max-w-[300px] bg-background data-[state=active]:border-primary dark:data-[state=active]:border-primary h-full rounded-none border-0 border-b-2 border-transparent data-[state=active]:shadow-none"
+                className="w-[120px] max-w-[300px] bg-background data-[state=active]:border-primary dark:data-[state=active]:border-primary h-full rounded-none border-0 border-b-2 border-transparent data-[state=active]:shadow-none"
               >
                 {item.name}
               </TabsTrigger>

@@ -83,19 +83,33 @@ model Workspace {
   projects    Project[]
 }
 
+enum Framework {
+  HTML
+  REACT
+  NEXTJS
+}
+
+enum DeploymentStatus {
+  QUEUED
+  BUILDING
+  DEPLOYING
+  READY
+  FAILED
+}
+
 model Project {
-  id           String   @id @default(cuid())
+  id           String       @id @default(cuid())
   name         String
-  slug         String   @unique
+  slug         String       @unique
   repoUrl      String?
-  framework    String?
-  outputDir    String?
-  buildCommand String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  framework    Framework?
+  outputDir    String?      @default("dist")
+  buildCommand String?      @default("npm run build")
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 
   workspaceId  String
-  workspace    Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspace    Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
 
   deployments  Deployment[]
 }

@@ -5,7 +5,7 @@ import { NextFunction, Request, Response } from "express";
 export default async function authMiddleware(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const session = await auth.api.getSession({
@@ -13,7 +13,7 @@ export default async function authMiddleware(
       query: { disableCookieCache: true },
     });
 
-    console.log("session", session);
+    // console.log("session", session);
     // console.log("req.headers.cookie:", req.headers);
 
     if (!session?.user) {

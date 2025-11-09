@@ -9,4 +9,3 @@ export async function getSessionUser() {
   });
   return session ?? null;
 }
-

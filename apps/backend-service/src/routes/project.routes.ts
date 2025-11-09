@@ -7,11 +7,11 @@ import {
   updateProject,
 } from "../controllers/project.controller";
 
-const projectsRoute = Router();
+const projectsRoutes = Router();
 
-projectsRoute.get("/", authMiddleware, getProjects);
-projectsRoute.post("/", authMiddleware, createProject);
-projectsRoute.put("/:id", authMiddleware, updateProject);
-projectsRoute.delete("/:id", authMiddleware, deleteProject);
+projectsRoutes.get("/", authMiddleware, getProjects);
+projectsRoutes.post("/", authMiddleware, createProject);
+projectsRoutes.put("/:id", authMiddleware, updateProject);
+projectsRoutes.delete("/:id", authMiddleware, deleteProject);
 
-export default projectsRoute;
+export default projectsRoutes;

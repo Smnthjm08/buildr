@@ -15,9 +15,11 @@
   "exports": {
     "./env": "./src/env/env.ts",
     "./auth/server": "./src/auth/auth.ts",
-    "./auth/client": "./src/auth/client.ts"
+    "./auth/client": "./src/auth/client.ts",
+    "./schema/projects": "./src/schema/projects.schema.ts"
   },
   "dependencies": {
-    "better-auth": "^1.3.34"
+    "better-auth": "^1.3.34",
+    "zod": "^4.1.12"
   }
 }

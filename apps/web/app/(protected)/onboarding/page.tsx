@@ -36,15 +36,15 @@ export default function OnboardingPage() {
   const [checking, setChecking] = useState(true);
   const [error, setError] = useState("");
   const router = useRouter();
-  const {data: session} = useSession();
+  const { data: session } = useSession();
 
   useEffect(() => {
     async function checkWorkspace() {
       try {
-        const workspace = session?.workspace 
+        const workspace = session?.workspace;
 
         if (workspace) {
-          router.push(`/${workspace.slug}/projects`);
+          router.push(`/${workspace.slug}/`);
         }
       } catch (err) {
         console.error("Error checking workspace:", err);
@@ -63,10 +63,13 @@ export default function OnboardingPage() {
     setError("");
 
     try {
-      const response = await axiosInstance.post("/api/workspace", {slug, name})
+      const response = await axiosInstance.post("/api/workspace", {
+        slug,
+        name,
+      });
 
       toast.success("Workspace created successfully!");
-      router.push(`/${response.data.slug}/projects`);
+      router.push(`/${response.data.slug}/`);
     } catch (err: any) {
       console.error("Error creating workspace:", err);
       if (err.response?.status === 422) {

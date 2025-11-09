@@ -14,11 +14,13 @@ export default function ProjectsPage() {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const data = await axiosInstance.get("/projects");
-      console.log("projects", data);
+      const data = await axiosInstance.get("/project");
+      setProjects(data?.data?.data);
     };
     fetchProjects();
   }, []);
+
+  console.log("projects", projects);
 
   return (
     <main className="flex w-full justify-center mt-10">
@@ -33,10 +35,20 @@ export default function ProjectsPage() {
         <FieldDescription>Please make sure it&apos;s public</FieldDescription>
         <Button
           onClick={async () => {
-            await axiosInstance.post("/deploy", { githubUrl });
+            await axiosInstance.post("/git/get-info", { githubUrl });
           }}
         >
-          Deploy
+          Create
+        </Button>
+
+        <Button
+          onClick={() => {
+            window.location.href =
+              "https://github.com/apps/buildrr-dev/installations/new";
+          }}
+          variant="outline"
+        >
+          Connect GitHub
         </Button>
       </Field>
     </main>
