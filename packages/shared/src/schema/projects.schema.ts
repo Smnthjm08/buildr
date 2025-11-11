@@ -9,7 +9,7 @@ export const createProjectSchema = z.object({
   //     /^[a-z0-9-]+$/,
   //     "Slug can only contain lowercase letters, numbers, and hyphens",
   //   ),
-  repoUrl: z.string().url("Invalid repository URL").optional(),
+  repoUrl: z.string().url("Invalid repository URL"),
   framework: z.enum(["HTML", "REACT", "NEXTJS"]).optional(),
   outputDir: z.string().default("dist"),
   buildCommand: z.string().default("npm run build"),

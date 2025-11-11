@@ -1,5 +1,5 @@
 import { resolve } from "path";
-import { defineConfig, env } from "prisma/config";
+import { defineConfig } from "prisma/config";
 import * as dotenv from "dotenv";
 
 dotenv.config({ path: resolve(__dirname, "../../.env") });
