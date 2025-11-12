@@ -48,7 +48,7 @@ export default function NewProjectPage() {
 
     const { data, status } = await axiosInstance.post(
       "/deploy/github",
-      payload
+      payload,
     );
     console.log("deploy", data);
     console.log("status", status);

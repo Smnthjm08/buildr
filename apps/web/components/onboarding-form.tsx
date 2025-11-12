@@ -124,13 +124,18 @@ export default function OnboardingForm() {
                   </Tooltip>
                 </InputGroupAddon>
               </InputGroup>
-              <FieldDescription>This will be your public workspace URL.</FieldDescription>
+              <FieldDescription>
+                This will be your public workspace URL.
+              </FieldDescription>
             </Field>
 
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </FieldSet>
 
-          <Field orientation="horizontal" className="mt-6 gap-3 flex justify-end">
+          <Field
+            orientation="horizontal"
+            className="mt-6 gap-3 flex justify-end"
+          >
             <Button type="submit" disabled={loading}>
               {loading ? "Creating..." : "Create Workspace"}
             </Button>
