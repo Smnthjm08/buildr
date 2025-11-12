@@ -46,15 +46,29 @@ export default function NewProjectPage() {
 
     console.log("Creating project with:", payload);
 
-    const { data, status } = await axiosInstance.post(
-      "/deploy/github",
-      payload,
-    );
-    console.log("deploy", data);
-    console.log("status", status);
+    try {
+      const { data, status } = await axiosInstance.post(
+        "/deploy/github",
+        payload,
+      );
 
-    if (status === 201) {
-      router.push(`/${session?.workspace?.slug}`);
+      console.log("response:", data);
+
+      if (status === 201) {
+        router.push(`/${session?.workspace?.slug}`);
+      } else {
+        console.warn("Unexpected response status:", status);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error("rrror creating projeect:", error);
+
+      alert(
+        error?.response?.data?.message ||
+          "Failed to create project. Please try again.",
+      );
+    } finally {
+      setIsLoading(false);
     }
   }
 

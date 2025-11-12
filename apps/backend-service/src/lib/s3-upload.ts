@@ -12,7 +12,7 @@ export const s3 = new S3Client({
 export async function uploadToS3(
   key: string,
   file: Buffer | Uint8Array | string,
-  contentType: string
+  contentType: string,
 ) {
 
   if (!process.env.AWS_S3_BUCKET_NAME || !process.env.AWS_S3_REGION) {

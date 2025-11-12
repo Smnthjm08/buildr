@@ -7,6 +7,7 @@ import { simpleGit } from "simple-git";
 import { lookup as mimeLookup } from "mime-types";
 import { uploadToS3 } from "../lib/s3-upload";
 import { getAllFiles } from "../lib/get-files";
+import { publisher } from "..";
 
 export function slugify(name: string) {
   return name
@@ -97,10 +98,12 @@ export const createProjectAndFirstDeployment = async (
     const allFiles = getAllFiles(clonePath);
     const s3Prefix = `${project.id}/${deployment.id}`;
 
-    console.log(`📁 Found ${allFiles.length} files to upload...`);
+    console.log(`Found ${allFiles.length} files to upload...`);
 
     for (const filePath of allFiles) {
-      const relativePath = path.relative(clonePath, filePath).replace(/\\/g, "/");
+      const relativePath = path
+        .relative(clonePath, filePath)
+        .replace(/\\/g, "/");
       const contentType = mimeLookup(filePath) || "application/octet-stream";
       const fileBuffer = fs.readFileSync(filePath);
       const s3Key = `${s3Prefix}/${relativePath}`;
@@ -109,7 +112,7 @@ export const createProjectAndFirstDeployment = async (
       await uploadToS3(s3Key, fileBuffer, contentType as string);
     }
 
-    await prisma.deployment.update({
+    const updatedDeployment = await prisma.deployment.update({
       where: { id: deployment.id },
       data: {
         status: "completed",
@@ -118,7 +121,12 @@ export const createProjectAndFirstDeployment = async (
       },
     });
 
-    console.log("Deployment uploaded successfully to S3!");
+    console.log("uploaded successfully to S3!");
+
+    publisher.lPush("deployment-id", updatedDeployment?.id);
+    publisher.hSet("status", updatedDeployment?.status, "uploaded");
+
+    // await
 
     return res.status(201).json({
       message: "Project created and uploaded successfully",
@@ -130,5 +138,3 @@ export const createProjectAndFirstDeployment = async (
     return res.status(500).json({ message: "Failed to create project", error });
   }
 };
-
-

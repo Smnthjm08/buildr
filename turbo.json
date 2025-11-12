@@ -3,40 +3,39 @@
   "ui": "tui",
   "globalEnv": [
     "BACKEND_PORT",
-    "BACKEND_URL",
-    "DATABASE_URL",
     "NODE_ENV",
+    "DATABASE_URL",
     "BETTER_AUTH_SECRET",
     "BETTER_AUTH_URL",
+
     "NEXT_PUBLIC_BACKEND_PORT",
+    "NEXT_PUBLIC_API_URL",
+    "BACKEND_URL",
+
     "GITHUB_CLIENT_ID",
-    "GITHUB_CLIENT_SECRET"
+    "GITHUB_CLIENT_SECRET",
+    "GITHUB_APPS_CLIENT_ID",
+    "GITHUB_APPS_CLIENT_SECRET",
+    "GITHUB_APPS_APP_ID",
+
+    "AWS_ACCESS_KEY_ID",
+    "AWS_SECRET_ACCESS_KEY",
+    "AWS_S3_BUCKET_NAME",
+    "AWS_S3_REGION",
+
+    "REDIS_URL"
   ],
   "tasks": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "$TURBO_DEFAULT$",
-        ".env*"
-      ],
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**",
-        "dist/**",
-        "src/**" 
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**", "src/**"]
     },
     "lint": {
-      "dependsOn": [
-        "^lint"
-      ]
+      "dependsOn": ["^lint"]
     },
     "check-types": {
-      "dependsOn": [
-        "^check-types"
-      ]
+      "dependsOn": ["^check-types"]
     },
     "dev": {
       "cache": false,
