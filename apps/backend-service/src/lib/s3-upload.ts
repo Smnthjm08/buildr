@@ -14,7 +14,6 @@ export async function uploadToS3(
   file: Buffer | Uint8Array | string,
   contentType: string,
 ) {
-
   if (!process.env.AWS_S3_BUCKET_NAME || !process.env.AWS_S3_REGION) {
     throw new Error("Missing S3 environment variables");
   }
