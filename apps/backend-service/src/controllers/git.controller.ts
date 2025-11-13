@@ -13,9 +13,6 @@ export const getRepoInfo = async (req: Request, res: Response) => {
 
     const test = await git.fetch(githubUrl);
 
-    // const status = await git.status();
-    // const remotes = await git.getRemotes(true);
-
     return res.status(200).json({
       message: "Fetched repo info successfully",
       test,

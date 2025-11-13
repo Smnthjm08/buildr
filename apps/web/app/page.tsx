@@ -1,24 +1,15 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import FeaturesSection from "@/components/home/features";
+import FooterSection from "@/components/home/footer";
+import HeroSection from "@/components/home/hero-section";
 
-export default function Page() {
-  const router = useRouter();
+export default function HomePage() {
   return (
-    <div className="flex items-center justify-center min-h-svh">
-      <div className="flex flex-col items-center justify-center gap-4">
-        <h1 className="text-2xl font-bold">Hello World</h1>
-        <div>
-          {`NODE_ENV: ${process.env.NODE_ENV} | BACKEND_PORT: ${process.env.NEXT_PUBLIC_BACKEND_PORT}`}
-        </div>
-        <Button onClick={() => router.push("/login")} size="sm">
-          Login
-        </Button>
-        <Button onClick={() => router.push("/signup")} variant={"secondary"}>
-          Get Started
-        </Button>
-      </div>
-    </div>
+    <main className="flex flex-col min-h-screen">
+      <HeroSection />
+      <FeaturesSection />
+      <FooterSection />
+    </main>
   );
 }

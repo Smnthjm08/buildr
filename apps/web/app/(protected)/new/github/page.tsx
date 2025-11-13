@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { axiosInstance } from "@/utils/axios";
+import { useSession } from "@workspace/shared/auth/client";
 
 export default function NewProjectPage() {
   const searchParams = useSearchParams();
@@ -27,6 +28,7 @@ export default function NewProjectPage() {
   const [outputDir, setOutputDir] = useState("dist");
   const [buildCommand, setBuildCommand] = useState("npm run build");
   const [isLoading, setIsLoading] = useState(false);
+  const { data: session } = useSession();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -44,14 +46,30 @@ export default function NewProjectPage() {
 
     console.log("Creating project with:", payload);
 
-    const deploy = await axiosInstance.post("/deploy/github", payload);
-    console.log("deploy", deploy);
+    try {
+      const { data, status } = await axiosInstance.post(
+        "/deploy/github",
+        payload,
+      );
 
-    // TODO: deploy endpoint
-    // setTimeout(() => {
-    //   setIsLoading(false);
-    //   router.push("/projects");
-    // }, 1500);
+      console.log("response:", data);
+
+      if (status === 201) {
+        router.push(`/${session?.workspace?.slug}`);
+      } else {
+        console.warn("Unexpected response status:", status);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error("rrror creating projeect:", error);
+
+      alert(
+        error?.response?.data?.message ||
+          "Failed to create project. Please try again.",
+      );
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   function handleCancel() {

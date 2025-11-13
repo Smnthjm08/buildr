@@ -11,11 +11,10 @@ export async function getInstallationRepositories(workspaceId: string) {
     throw new Error("No GitHub integration found for workspace.");
   }
 
-  // Pre-check: if token is expired or expires in < 5 mins, refresh BEFORE calling GitHub
   const expiresAt = new Date(integration.accessTokenExpiresAt).getTime();
   const now = Date.now();
 
-  const isExpiringSoon = expiresAt - now < 5 * 60 * 1000; // 5 mins
+  const isExpiringSoon = expiresAt - now < 5 * 60 * 1000;
 
   if (isExpiringSoon) {
     console.log("Token near expiry → Refreshing before request...");
