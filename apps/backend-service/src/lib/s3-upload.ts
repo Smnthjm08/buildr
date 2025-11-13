@@ -4,8 +4,10 @@ export const s3 = new S3Client({
   region: process.env.AWS_S3_REGION || "ap-south-1",
   endpoint: `https://s3.ap-south-1.amazonaws.com`,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID! || "",
+    secretAccessKey:
+      process.env.AWS_SECRET_ACCESS_KEY! ||
+      "",
   },
 });
 

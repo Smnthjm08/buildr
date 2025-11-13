@@ -19,7 +19,7 @@ export function slugify(name: string) {
 
 export const createProjectAndFirstDeployment = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   try {
     const parsed = createProjectSchema.safeParse(req.body);

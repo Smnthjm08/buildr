@@ -86,7 +86,7 @@ export default function ProjectsPage() {
                 value={githubUrl}
                 onChange={(e) => setGithubUrl(e.target.value)}
                 type="text"
-                placeholder="Enter a Git repository URL to deploy..."
+                placeholder="Enter a public Git repository URL to deploy..."
                 className="pr-10 h-11"
               />
               <GitHubLogoIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
