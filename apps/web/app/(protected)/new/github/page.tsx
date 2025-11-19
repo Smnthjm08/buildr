@@ -122,7 +122,7 @@ export default function NewProjectPage() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="REACT">React</SelectItem>
-                      <SelectItem value="NEXT_JS">Next.js</SelectItem>
+                      <SelectItem value="NEXTJS">Next.js</SelectItem>
                       <SelectItem value="VUE">Vue</SelectItem>
                     </SelectContent>
                   </Select>

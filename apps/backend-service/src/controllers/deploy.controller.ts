@@ -7,7 +7,11 @@ import { simpleGit } from "simple-git";
 import { lookup as mimeLookup } from "mime-types";
 import { uploadToS3 } from "../lib/s3-upload";
 import { getAllFiles } from "../lib/get-files";
+
+import env from "@workspace/shared/env";
 import { publisher } from "..";
+
+const { AWS_S3_REGION, AWS_S3_BUCKET_NAME } = env;
 
 export function slugify(name: string) {
   return name
@@ -102,7 +106,7 @@ export const createProjectAndFirstDeployment = async (
 
     await Promise.all(uploadPromises);
 
-    const deployedUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_S3_REGION}.amazonaws.com/${s3Prefix}/index.html`;
+    const deployedUrl = `https://${AWS_S3_BUCKET_NAME}.s3.${AWS_S3_REGION}.amazonaws.com/${s3Prefix}/index.html`;
 
     const updatedDeployment = await prisma.deployment.update({
       where: { id: deployment.id },

@@ -3,9 +3,7 @@
 import Navbar from "@/components/navbar";
 import { useSession } from "@workspace/shared/auth/client";
 import { useRouter, useParams } from "next/navigation";
-import { useEffect } from "react";
-
-// const NON_WORKSPACE_ROUTES = ["/connect-github", "/logout"];
+import { useEffect, useState } from "react";
 
 export default function WorkSpaceLayout({
   children,
@@ -13,53 +11,52 @@ export default function WorkSpaceLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const { workspaceSlug } = useParams() as { workspaceSlug?: string };
+  const { workspaceSlug } = useParams();
   const { data: session, isPending } = useSession();
+
+  const [workspace, setWorkspace] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (isPending) return;
-
-    // const currentPath = window.location.pathname;
-
-    // if (NON_WORKSPACE_ROUTES.some((route) => currentPath.startsWith(route))) {
-    //   return; // Do NOT enforce workspace slug here
-    // }
 
     if (!session) {
       router.replace("/");
       return;
     }
 
-    if (!session.workspace) {
-      router.replace("/onboarding");
-      return;
-    }
+    const loadWorkspace = async () => {
+      const res = await fetch("/api/workspace/me");
+      const data = await res.json();
 
-    const userSlug = session.workspace.slug;
+      if (!data.workspace) {
+        router.replace("/onboarding");
+        return;
+      }
 
-    if (workspaceSlug && workspaceSlug !== userSlug) {
-      router.replace(`/${userSlug}/`);
-    }
+      setWorkspace(data.workspace);
+
+      // enforce correct slug
+      if (workspaceSlug !== data.workspace.slug) {
+        router.replace(`/${data.workspace.slug}/`);
+      }
+
+      setLoading(false);
+    };
+
+    loadWorkspace();
   }, [session, isPending, router, workspaceSlug]);
 
-  const showContent =
-    !!session?.workspace && workspaceSlug === session?.workspace.slug;
+  if (loading) return null;
+
+  const showContent = workspaceSlug === workspace?.slug;
 
   return (
     <main className="min-h-svh">
-      {session?.workspace && workspaceSlug === session.workspace.slug && (
-        <Navbar workspace={session.workspace} />
-      )}
+      {showContent && <Navbar workspace={workspace} />}
 
       <div className="w-full flex justify-center">
-        {
-          showContent && children
-          // ) : (
-          // <div className="flex flex-col items-center gap-3 py-10 text-muted-foreground">
-          // <LoaderIcon className="h-5 w-5 animate-spin" />
-          // <p className="text-sm">Loading workspace...</p>
-          // </div>
-        }
+        {showContent && children}
       </div>
     </main>
   );

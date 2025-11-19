@@ -32,7 +32,7 @@ export async function middleware(request: NextRequest) {
 
   // Block protected routes if not logged in
   const protectedPaths =
-    pathname.startsWith("/onboarding") ||
+    // pathname.startsWith("/onboarding") ||
     pathname.startsWith("/settings") ||
     /^\/[^/]+\/(projects|deployments|settings)/.test(pathname);
 
@@ -49,7 +49,7 @@ export const config = {
     "/login",
     "/signup",
     "/forgot-password",
-    "/onboarding",
+    // "/onboarding",
     "/settings",
     "/:workspaceSlug/projects/:path*",
     "/:workspaceSlug/deployments/:path*",

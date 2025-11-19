@@ -31,6 +31,7 @@ export const getProjects = async (req: Request, res: Response) => {
 
     const projects = await prisma.project.findMany({
       where: { workspaceId: workspace.id },
+      include:{deployments:true},
       orderBy: { createdAt: "desc" },
     });
 
@@ -57,6 +58,36 @@ export const getProjects = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Error fetching projects" });
   }
 };
+
+export const getProjectsById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const workspace = req.workspace;
+
+    if (!workspace) {
+      return res
+        .status(403)
+        .json({ error: "Workspace not found or unauthorized." });
+    }
+
+    const project = await prisma.project.findFirst({
+      where: { id, workspaceId: workspace.id },
+      include: { deployments: true },
+    });
+
+    if (!project) {
+      return res.status(404).json({ error: "Project not found" });
+    }
+
+    return res.status(200).json({
+      message: "Project fetched successfully",
+      data: project,
+    });
+  } catch (error) {
+    console.error("Error fetching project by ID:", error);
+    return res.status(500).json({ error: "Error fetching project" });
+  }
+}
 
 export const createProject = async (req: Request, res: Response) => {
   try {
@@ -99,6 +130,8 @@ export const createProject = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
 
 export const updateProject = async () => {};
 export const deleteProject = async () => {};

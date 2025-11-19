@@ -50,6 +50,9 @@
     },
     "db:deploy": {
       "cache": false
+    },
+    "start": {
+      "cache": false
     }
   }
 }

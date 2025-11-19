@@ -12,6 +12,15 @@ import { promisify } from "util";
 import { buildProject } from "./build-project";
 import mime from "mime-types";
 
+import env from "@workspace/shared/env";
+
+const {
+  AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY,
+  AWS_S3_REGION,
+  AWS_S3_BUCKET_NAME,
+} = env;
+
 const streamPipeline = promisify(pipeline);
 
 const subscriber = createClient({
@@ -21,16 +30,15 @@ subscriber.on("error", console.error);
 await subscriber.connect();
 
 export const s3 = new S3Client({
-  region: process.env.AWS_S3_REGION || "ap-south-1",
-  endpoint: `https://s3.ap-south-1.amazonaws.com`,
+  region: AWS_S3_REGION,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID! || "",
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY! || "",
+    accessKeyId: AWS_ACCESS_KEY_ID,
+    secretAccessKey: AWS_SECRET_ACCESS_KEY,
   },
 });
 
 async function downloadCodeFromS3(deploymentId: string) {
-  const bucket = process.env.AWS_S3_BUCKET_NAME! || "buildrr-dev";
+  const bucket = AWS_S3_BUCKET_NAME;
   const outputDir = path.join(__dirname, `../output/${deploymentId}`);
 
   fs.mkdirSync(outputDir, { recursive: true });
@@ -85,7 +93,7 @@ function getAllFiles(dir: string, fileList: string[] = []) {
 }
 
 async function uploadBuildToS3(deploymentId: string) {
-  const bucket = process.env.AWS_S3_BUCKET_NAME! ?? "buildrr-dev";
+  const bucket = AWS_S3_BUCKET_NAME;
 
   const localDist = path.join(__dirname, `../output/${deploymentId}/dist`); // FIXED
   const s3Prefix = `production/${deploymentId}`;

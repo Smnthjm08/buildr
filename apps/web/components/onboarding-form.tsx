@@ -100,11 +100,15 @@ export default function OnboardingForm() {
                   id="slug"
                   placeholder="your-workspace"
                   value={slug}
-                  onChange={(e) =>
-                    setSlug(
-                      e.target.value.toLowerCase().trim().replace(/\s+/g, "-"),
-                    )
-                  }
+                  onChange={(e) => {
+                    const value = e.target.value.toLowerCase();
+
+                    const sanitized = value
+                      .replace(/[^a-z0-9-]/g, "")
+                      .replace(/--+/g, "-");
+
+                    setSlug(sanitized);
+                  }}
                   required
                 />
                 <InputGroupAddon align="inline-end">

@@ -19,6 +19,11 @@ interface Project {
   outputDir: string;
   buildCommand: string;
   createdAt: string;
+  deployments: Array<{
+    id: string;
+    url: string;
+    status: string;
+  }>;
 }
 
 interface Repository {
